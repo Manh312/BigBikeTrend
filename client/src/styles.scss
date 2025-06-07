@@ -1,0 +1,14 @@
+@use "tailwindcss";
+/* Importing Bootstrap SCSS file. */
+@use "bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@use "ngx-bootstrap/datepicker/bs-datepicker";
+
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

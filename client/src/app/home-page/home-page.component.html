@@ -1,0 +1,60 @@
+<div class="min-h-screen bg-gray-50">
+  <section>
+    <carousel [isAnimated]="true" [interval]="myInterval" class="w-full">
+      <slide *ngFor="let slide of slideStore">
+        <div>
+          <img
+            src="{{ slide.src }}"
+            alt="{{slide.alt}}"
+            class="top-0 left-0 w-full transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      </slide>
+    </carousel>
+  </section>
+
+  <section class="mt-10">
+    <div
+      class="mb-6 p-6 bg-gradient-to-r from-gray-100 to-white rounded-lg shadow-md"
+    >
+      <h3 class="text-xl md:text-2xl font-bold text-gray-800 text-center">
+        Loại sản phẩm hiện có
+      </h3>
+    </div>
+    <div class="mb-20 px-2">
+      <owl-carousel-o [options]="customOptions" class="w-full">
+        <ng-container *ngFor="let slide of slidesStore">
+          <ng-template carouselSlide [id]="slide.id">
+            <mat-card
+              class="bg-white mx-2 h-105 flex flex-col"
+              appearance="outlined"
+            >
+              <img
+                mat-card-image
+                [src]="slide.src"
+                [alt]="slide.alt"
+                class="w-full object-cover rounded-t-xl p-3"
+              />
+              <mat-card-content class="text-center p-4 flex-1 flex items-center justify-center">
+                <p class="text-gray-800 font-semibold text-lg">
+                  {{ slide.title }}
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+  </section>
+  <section class="mt-5">
+    <div>
+      <div class="col-md-12 mb-2">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 text-center">Sản phẩm phổ biến</h3>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+  </section>
+</div>

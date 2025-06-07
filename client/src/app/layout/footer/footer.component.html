@@ -1,0 +1,23 @@
+<footer
+  class="bg-gray-900 text-white py-10 px-4 shadow-[0_-4px_12px_rgba(0,0,0,0.3)] bg-gradient-to-r from-gray-900 to-gray-700 transition-all duration-500"
+>
+  <div
+    class="mx-auto grid md:justify-items-center sm:justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-gray-600"
+  >
+    <div *ngFor="let section of footerSections" class="text-gray-400">
+      <h4 class="text-lg font-semibold mb-4">{{ section.title }}</h4>
+      <a
+        *ngFor="let link of section.links"
+        [href]="link.url"
+        class="block mb-2 transition-colors text-decoration-none duration-300"
+      >
+        <div class="text-gray-400 hover:text-gray-100">
+          {{ link.name }}
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="text-center pt-6 text-gray-400">
+    <p class="text-sm">{{ footerBottom }}</p>
+  </div>
+</footer>

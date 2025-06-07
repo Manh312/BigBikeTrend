@@ -1,0 +1,91 @@
+$tech-dark-alt: #292b31;
+$tech-light: #f3f4f6;
+
+header {
+  .flex {
+    .app-icon {
+      img {
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+
+      .app-name {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+        color: $tech-light;
+
+        &:hover {
+          color: $tech-light;
+        }
+      }
+    }
+
+    .search-bar {
+      margin: 0 1rem;
+
+      input {
+        border: 1px solid $tech-light;
+        outline: none;
+        background-color: $tech-light;
+        color: $tech-dark-alt;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &::placeholder {
+          color: $tech-dark-alt;
+          opacity: 0.7;
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+      }
+    }
+
+    .hamburger-button {
+      color: $tech-light;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      mat-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    .actions {
+      gap: 1.5rem;
+
+      &.flex {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 40;
+      }
+
+      button {
+        color: $tech-light;
+        transition: color 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-3px);
+        }
+
+        mat-icon {
+          font-size: 1.6rem;
+        }
+      }
+    }
+  }
+  nav {
+    a.router-link-active {
+      color: orange !important;
+    }
+  }
+
+  button.router-link-active {
+    color: orange !important;
+  }
+}

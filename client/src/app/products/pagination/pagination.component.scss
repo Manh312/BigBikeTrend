@@ -1,0 +1,43 @@
+.number-button-active,
+.number-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #333;
+  margin: 0 5px;
+  border: 1px solid #e0e0e0;
+}
+
+.number-button-active, .number-button:hover {
+  color: white;
+  background-color: orange;
+}
+
+.number-button:disabled {
+  border: none;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.left-button,
+.right-button {
+  width: auto;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: lightgray;
+  color: #333;
+  cursor: pointer;
+}
+
+.left-button:hover,
+.right-button:hover { 
+  background-color: gray;
+  color: white;
+}

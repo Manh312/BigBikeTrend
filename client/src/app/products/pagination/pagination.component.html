@@ -1,0 +1,13 @@
+<div class="p-4 flex justify-center">
+  <button mat-icon-button class="left-button" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 0">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button *ngFor="let page of getPaginationArray()" class="number-button"
+    [class.number-button-active]="page === currentPage" [disabled]="page === -1" (cliclk)="onPageChange(page)">
+    <ng-container *ngIf="page !== -1">{{ page + 1 }}</ng-container>
+    <ng-container *ngIf="page === -1">...</ng-container>
+  </button>
+  <button mat-icon-button class="right-button" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages - 1">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
