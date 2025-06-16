@@ -11,4 +11,16 @@ export class ProductsComponent {
   display(pageIndex:number) {
     this.pageIndex = pageIndex;
   }
+
+  filters!: object;
+  filterChanged(filters:object) {
+    console.log(filters);
+    this.filters = filters;
+  }
+
+  sortFilter!: object;
+  sortFilterChanged(sortFilter: object) {
+    console.log(sortFilter);
+    this.sortFilter = sortFilter;
+  } 
 }

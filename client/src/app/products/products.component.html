@@ -1,2 +1,16 @@
-<app-pagination [pageItems]="500" [pageSize]="5" [currentPage]="1" (pageChange)="display($event)"></app-pagination>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-3">
+      <app-filters (filtersChanged)="filterChanged($event)"></app-filters>
+    </div>
+    <div class="col-9">
+      <app-sort-header (sortHeaderChanges)="sortFilterChanged($event)"></app-sort-header>
+      <p>PageIndex: {{pageIndex}}</p>
+      <p>Filters: {{filters|json}}</p>
+      <p>Sort Filter: {{sortFilter|json}}</p>
+      <app-pagination [pageItems]="500" [pageSize]="5" [currentPage]="1" (pageChange)="display($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>
 <!-- <h1>{{pageIndex}}</h1> -->

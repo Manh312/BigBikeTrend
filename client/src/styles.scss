@@ -7,8 +7,51 @@
 
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import '@angular/material/prebuilt-themes/cyan-orange.css';
+
 
 
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --primary-color: #eda411;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --text-color: #333333;
+  --accent-color: #28a745;
+  --warning-color: #ffc107;
+}
+
+
+// .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+//   color: #21313c !important;
+//   font-weight: 600 !important;
+//   line-height: 1.2 !important;
+//   margin-bottom: .5rem !important;
+//   margin-top: 0 !important;
+// }
+
+::-webkit-scrollbar{
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
+  color: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}

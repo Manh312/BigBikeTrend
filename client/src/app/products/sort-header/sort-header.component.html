@@ -1,0 +1,21 @@
+<div class="row align-items-center">
+  <span class="products-found col-6">24 Products found</span>
+  <div class="sort-dropdown col-6 row">
+    <div class="col-6">
+      <mat-form-field appearance="outline" class="show-dropdown">
+        <mat-label class="text-black">Hiển thị</mat-label>
+        <mat-select [(value)]="itemsToShow" (selectionChange)="itemsToShowChange($event)" class="text-black">
+          <mat-option *ngFor="let option of showOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+        <mat-form-field appearance="outline" class="sort-dropdown">
+          <mat-label class="text-black">Sắp xếp theo</mat-label>
+          <mat-select [(value)]="sortBy" (selectionChange)="sortByChange($event)" class="text-black">
+            <mat-option *ngFor="let option of sortOptions" [value]="option">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </div>
+</div>

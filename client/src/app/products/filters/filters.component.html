@@ -1,0 +1,64 @@
+<div class="filter-container">
+  <div class="filter-header mb-5 mt-3">
+    <h4>Bộ Lọc Tìm Kiếm</h4>
+  </div>
+  <div class="filter-section">
+    <h5>Theo danh mục</h5>
+    <div class="select-checkbox">
+      <p *ngFor="let category of productCategories">
+        <mat-checkbox (change)="toggleProductCategories(category.id)">
+          <span class="text-black">{{ category.name }}</span>
+        </mat-checkbox>
+      </p>
+    </div>
+  </div>
+  <div class="filter-section">
+    <h5>Thương hiệu</h5>
+    <div class="select-checkbox">
+      <p *ngFor="let brand of brands">
+        <mat-checkbox (change)="toggleBrand(brand.id)">
+          <span class="text-black">{{ brand.name }}</span>
+        </mat-checkbox>
+      </p>
+    </div>
+  </div>
+  <div class="filter-section">
+    <h5>Tình trạng</h5>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle class="text-black" value="true" (change)="toggleStock(true)"
+        >In Stock</mat-button-toggle
+      >
+      <mat-button-toggle class="text-black" value="false" (change)="toggleStock(false)"
+        >Out of Stock</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+  <div class="filter-section">
+    <h5>Khoảng giá</h5>
+    <div class="filter-slider-container">
+      <mat-slider class="filter-slider" [min]="minPrice" [max]="maxPrice">
+        <input
+          [value]="selectedMinPrice"
+          matSliderStartThumb
+          (valueChange)="minPriceChange($event)"
+        />
+        <input
+          [value]="selectedMaxPrice"
+          matSliderEndThumb
+          (valueChange)="maxPriceChange($event)"
+        />
+      </mat-slider>
+    </div>
+    <p>
+      <small>Giá: {{selectedMinPrice | currency: 'VND'}} - {{selectedMaxPrice | currency: 'VND'}}</small>
+    </p>
+  </div>
+  <div class="filter-section">
+    <h5>Đánh giá</h5>
+    <div *ngFor="let rating of ratings">
+      <mat-checkbox (change)="toggleRating(rating.value)">
+        <s-rating [rating]="rating.value"></s-rating>
+      </mat-checkbox>
+    </div>
+  </div>
+</div>

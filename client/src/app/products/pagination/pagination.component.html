@@ -3,7 +3,7 @@
     <mat-icon>chevron_left</mat-icon>
   </button>
   <button *ngFor="let page of getPaginationArray()" class="number-button"
-    [class.number-button-active]="page === currentPage" [disabled]="page === -1" (cliclk)="onPageChange(page)">
+    [class.number-button-active]="page === currentPage" [disabled]="page === -1" (click)="onPageChange(page)">
     <ng-container *ngIf="page !== -1">{{ page + 1 }}</ng-container>
     <ng-container *ngIf="page === -1">...</ng-container>
   </button>
