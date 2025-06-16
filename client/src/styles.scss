@@ -5,9 +5,10 @@
 /* Importing Datepicker SCSS file. */
 @use "ngx-bootstrap/datepicker/bs-datepicker";
 
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
-@import '@angular/material/prebuilt-themes/cyan-orange.css';
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel' as owl-carousel;
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default' as owl-theme; 
+
+
 
 
 

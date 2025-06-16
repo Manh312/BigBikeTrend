@@ -19,17 +19,19 @@ import { CommonModule } from '@angular/common';
 })
 export class HomePageComponent {
   myInterval: number = 2000;
+
+  // Sửa đường dẫn cho slideStore
   slideStore = [
     {
-      src: '/banner1.png',
+      src: '/banner1.png', // Đường dẫn tương đối từ assets
       alt: 'Banner 1',
     },
     {
-      src: '/banner2.jpg',
+      src: '/banner2.jpg', // Đường dẫn tương đối từ assets
       alt: 'Banner 2',
     },
     {
-      src: '/banner3.jpg',
+      src: '/banner3.jpg', // Đường dẫn tương đối từ assets
       alt: 'Banner 3',
     },
   ];
@@ -59,37 +61,39 @@ export class HomePageComponent {
     nav: false,
     autoplay: true,
     autoplaySpeed: 1000,
-  }
-  slidesStore:any[] = [
+  };
+
+  // Sửa đường dẫn cho slidesStore
+  slidesStore: any[] = [
     {
       id: '1',
-      src: '/iphone.png',
+      src: '/iphone.png', // Đường dẫn tương đối từ assets
       alt: 'Iphone',
       title: 'Iphone'
     },
     {
       id: '2',
-      src: '/ipad.png',
+      src: '/ipad.png', // Đường dẫn tương đối từ assets
       alt: 'Ipad',
       title: 'Ipad'
     },
     {
       id: '3',
-      src: '/airpod.png',
+      src: '/airpod.png', // Đường dẫn tương đối từ assets
       alt: 'Airpod',
       title: 'Airpod'
     },
     {
       id: '4',
-      src: '/macbook.png',
+      src: '/macbook.png', // Đường dẫn tương đối từ assets
       alt: 'Macbook',
       title: 'Macbook'
     },
     {
       id: '5',
-      src: '/applewatch.png',
+      src: '/applewatch.png', // Đường dẫn tương đối từ assets
       alt: 'Apple Watch',
       title: 'Apple Watch'
     },
-  ]
+  ];
 }
