@@ -1,4 +1,9 @@
+import { Observable } from 'rxjs';
+import { ProductCategoriesResDto } from '../../core/models/catalog';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../redux/store';
 import { Component, HostListener } from '@angular/core';
+import { selectProductCategories } from '../../redux/catalog/catalog.selector';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +16,7 @@ export class HeaderComponent {
   isMobile = window.innerWidth < 768;
 
   // Định nghĩa mảng danh mục với icon và đường dẫn
-  categories = [
+  productCategories = [
     { name: 'Iphone', icon: 'phone_iphone', link: '/phones' },
     { name: 'Ipad', icon: 'tablet_mac', link: '/tablets' },
     { name: 'MacBook', icon: 'laptop_mac', link: '/laptops' },
@@ -25,6 +30,11 @@ export class HeaderComponent {
     { name: 'Giới thiệu', link: '/about' },
     { name: 'Liên hệ', link: '/contact' }
   ];
+
+  productCategories$: Observable<ProductCategoriesResDto[]>;
+  constructor(private store: Store<AppState>) {
+    this.productCategories$ = this.store.select(selectProductCategories);
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen; 

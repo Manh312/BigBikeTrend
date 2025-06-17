@@ -34,8 +34,9 @@
     <div
       class="actions hidden md:flex md:items-center md:space-x-4"
       [ngClass]="{
-        'flex flex-col absolute top-full left-0 bg-gray-900 p-3 rounded-b-lg w-full': isMenuOpen && isMobile,
-        'hidden': !isMenuOpen && isMobile
+        'flex flex-col absolute top-full left-0 bg-gray-900 p-3 rounded-b-lg w-full':
+          isMenuOpen && isMobile,
+        hidden: !isMenuOpen && isMobile
       }"
     >
       <button mat-icon-button class="hover:bg-gray-700 rounded-full p-2">
@@ -55,7 +56,7 @@
           <span>Tất cả thiết bị</span>
         </button>
         <mat-menu #menuMobile="matMenu" class="bg-gray-800 rounded-lg">
-          <ng-container *ngFor="let category of categories">
+          <ng-container *ngFor="let category of productCategories">
             <button
               mat-menu-item
               class="text-white hover:bg-gray-700 flex items-center space-x-2"
@@ -83,7 +84,9 @@
   </div>
   <div class="flex items-center justify-start mt-4 gap-10">
     <!-- Nút "Tất cả thiết bị" trên desktop -->
-    <div class="hidden md:block w-40 ml-13 p-2 bg-gray-500 hover:bg-gray-700 rounded-lg flex items-center justify-center space-x-2">
+    <div
+      class="hidden md:block w-40 ml-13 p-2 bg-gray-500 hover:bg-gray-700 rounded-lg flex items-center justify-center space-x-2"
+    >
       <button
         mat-flat-button
         [matMenuTriggerFor]="menu"
@@ -94,7 +97,7 @@
         Tất cả thiết bị
       </button>
       <mat-menu #menu="matMenu" class="bg-gray-800 rounded-lg">
-        <ng-container *ngFor="let category of categories">
+        <ng-container *ngFor="let category of productCategories">
           <button
             mat-menu-item
             class="text-white hover:bg-gray-700 flex items-center space-x-2"
@@ -102,6 +105,27 @@
             routerLinkActive="router-link-active"
           >
             <mat-icon>{{ category.icon }}</mat-icon>
+            <span>{{ category.name }}</span>
+          </button>
+        </ng-container>
+      </mat-menu>
+
+      <button
+        mat-flat-button
+        [matMenuTriggerFor]="menuredux"
+        aria-label="Example icon-button with a menu"
+        class="flex items-center space-x-2"
+      >
+        <mat-icon>grid_view</mat-icon>
+        Tất cả thiết bị redux
+      </button>
+      <mat-menu #menuredux="matMenu" class="bg-gray-800 rounded-lg">
+        <ng-container *ngFor="let category of productCategories$|async">
+          <button
+            mat-menu-item
+            class="text-white hover:bg-gray-700 flex items-center space-x-2"
+            routerLinkActive="router-link-active"
+          >
             <span>{{ category.name }}</span>
           </button>
         </ng-container>

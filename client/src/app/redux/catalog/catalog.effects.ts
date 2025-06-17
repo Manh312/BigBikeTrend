@@ -1,16 +1,30 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { mergeMap, of } from "rxjs";
-import { loadProductCategories, loadProductCategoriesSuccess } from "./catalog.action";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import {
+  loadProductCategories,
+  loadProductCategoriesFailure,
+  loadProductCategoriesSuccess,
+} from './catalog.action';
+import { CatalogService } from '../../core/services/catalog.service';
+import { mergeMap, map, catchError, of } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CatalogEffects {
-  constructor(private action$:Actions) {}
+  constructor(private action$: Actions, private catalogService: CatalogService){}
 
-  loadProductCategories$ = createEffect(() => 
+  loadProductCategories$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadProductCategories),
-      mergeMap(() => of(loadProductCategoriesSuccess({productCategories: []})))
+      mergeMap(() =>
+        this.catalogService.getProductCategories().pipe(
+          map((res) => {
+            return res.isSuccessed === true ? 
+            loadProductCategoriesSuccess({productCategories: res.data ? res.data : []})
+              : loadProductCategoriesFailure({ error: res.message });
+          }),
+          catchError((error) => of(loadProductCategoriesFailure({error})))
+        )
+      )
     )
-  )
+  );
 }
