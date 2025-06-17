@@ -24,21 +24,21 @@
     </div>
     <div class="mb-20 px-2">
       <owl-carousel-o [options]="customOptions" class="w-full">
-        <ng-container *ngFor="let slide of slidesStore">
-          <ng-template carouselSlide [id]="slide.id">
+        <ng-container *ngFor="let category of productCategories$|async">
+          <ng-template carouselSlide [id]="category.id.toString()">
             <mat-card
               class="bg-white mx-2 h-105 flex flex-col"
               appearance="outlined"
             >
               <img
                 mat-card-image
-                [src]="slide.src"
-                [alt]="slide.alt"
-                class="w-full object-cover rounded-t-xl p-3"
+                [src]="serverApi + category.image?.imageUrl"
+                [alt]="category.name"
+                class="w-full h-48 object-cover rounded-t-xl p-3"
               />
               <mat-card-content class="text-center p-4 flex-1 flex items-center justify-center">
                 <p class="text-gray-800 font-semibold text-lg">
-                  {{ slide.title }}
+                  {{ category.name }}
                 </p>
               </mat-card-content>
             </mat-card>

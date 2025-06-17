@@ -1,4 +1,4 @@
 export interface ImageDtoRes {
-  url: string;
+  imageUrl: string;
   alt?: string;
 }

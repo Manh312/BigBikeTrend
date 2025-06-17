@@ -5,9 +5,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from './layout/layout.module';
-import { BASE_API } from './core/token/baseUrl.token';
+import { BASE_API, BASE_IMAGE_API } from './core/token/baseUrl.token';
 import { environment } from '../environments/environment';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { apiInterceptor } from './core/interceptor/api.interceptor';
 import { StoreModule } from '@ngrx/store';
 import { store } from './redux/store';
@@ -22,6 +22,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AppRoutingModule,
     LayoutModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     StoreModule.forRoot(store), // Chỉ một lần gọi
     EffectsModule.forRoot([CatalogEffects]), // Đảm bảo CatalogEffects được liệt kê
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
@@ -31,8 +32,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       provide: BASE_API,
       useValue: environment.baseApi,
     },
-    provideHttpClient(withInterceptorsFromDi()), // Cấu hình HttpClient mới
-    { provide: apiInterceptor, useClass: apiInterceptor, multi: true }, // Inject interceptor
+    {
+      provide: BASE_IMAGE_API,
+      useValue: environment.imageBaseApi,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: apiInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })
