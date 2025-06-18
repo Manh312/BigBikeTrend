@@ -5,7 +5,7 @@
   <div class="filter-section">
     <h5>Theo danh mục</h5>
     <div class="select-checkbox">
-      <p *ngFor="let category of productCategories">
+      <p *ngFor="let category of productCategories$|async">
         <mat-checkbox (change)="toggleProductCategories(category.id)">
           <span class="text-black">{{ category.name }}</span>
         </mat-checkbox>
@@ -15,7 +15,7 @@
   <div class="filter-section">
     <h5>Thương hiệu</h5>
     <div class="select-checkbox">
-      <p *ngFor="let brand of brands">
+      <p *ngFor="let brand of brands$|async">
         <mat-checkbox (change)="toggleBrand(brand.id)">
           <span class="text-black">{{ brand.name }}</span>
         </mat-checkbox>

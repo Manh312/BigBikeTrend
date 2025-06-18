@@ -34,7 +34,7 @@ export class HomePageComponent {
   // Sửa đường dẫn cho slideStore
   slideStore = [
     {
-      src: '/banner1.png', // Đường dẫn tương đối từ assets
+      src: '/banner1.jpeg', // Đường dẫn tương đối từ assets
       alt: 'Banner 1',
     },
     {
@@ -44,6 +44,14 @@ export class HomePageComponent {
     {
       src: '/banner3.jpg', // Đường dẫn tương đối từ assets
       alt: 'Banner 3',
+    },
+    {
+      src: '/banner4.jpg', // Đường dẫn tương đối từ assets
+      alt: 'Banner 4',
+    },
+    {
+      src: '/banner5.jpg', // Đường dẫn tương đối từ assets
+      alt: 'Banner 5',
     },
   ];
 

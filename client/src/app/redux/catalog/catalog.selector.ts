@@ -7,3 +7,8 @@ export const selectProductCategories = createSelector(
   selectCatalogState,
   (state: CatalogState) => state.productCategories
 )
+
+export const selectBrands = createSelector(
+  selectCatalogState,
+  (state: CatalogState) => state.brands
+)

@@ -15,28 +15,32 @@ namespace server.Repository
             this._context = context;
         }
 
-        public async Task<Pagination<Product>> GetAllIncludingChildEntities(CatalogSpec inData)
+        public async Task<ProductPagination> GetAllIncludingChildEntities(CatalogSpec inData)
         {
-            IQueryable<Product> productQuery = _context.Products.AsQueryable();
+            IQueryable<Product> productQuery = _context.Products
+                .Include(p => p.ProductCategories)
+                .Include(p => p.Brand)
+                .Include(p => p.Thumbnail)
+                .AsQueryable();
 
-            if (!string.IsNullOrEmpty(inData.search))
+            if (!string.IsNullOrEmpty(inData.Search))
             {
-                productQuery = productQuery.Where(p => p.Name.Contains(inData.search));
+                productQuery = productQuery.Where(p => p.Name.Contains(inData.Search));
             }
 
-            if (inData.minPrice.HasValue)
+            if (inData.MinPrice.HasValue)
             {
-                productQuery = productQuery.Where(p => p.Price >= inData.minPrice);
+                productQuery = productQuery.Where(p => p.OriginalPrice >= inData.MinPrice);
             }
 
-            if (inData.maxPrice.HasValue)
+            if (inData.MaxPrice.HasValue)
             {
-                productQuery = productQuery.Where(p => p.Price <= inData.maxPrice);
+                productQuery = productQuery.Where(p => p.OriginalPrice <= inData.MaxPrice);
             }
 
-            if (inData.inStock.HasValue)
+            if (inData.InStock.HasValue)
             {
-                if (inData.inStock == true)
+                if (inData.InStock == true)
                 {
                     productQuery = productQuery.Where(p => p.StockQuantity > 0);
                 }
@@ -46,52 +50,52 @@ namespace server.Repository
                 }
             }
 
-            if (inData.productCategoriesId.HasValue)
+            if (inData.productCategoriesIds != null && inData.productCategoriesIds.Length > 0 )
             {
-                productQuery = productQuery.Where(p => p.ProductCategoriesId == inData.productCategoriesId);
+                productQuery = productQuery.Where(p => inData.productCategoriesIds.Contains(p.ProductCategoriesId));
             }
 
-            if (inData.brandId.HasValue)
+            if (inData.BrandIds != null && inData.BrandIds.Length > 0)
             {
-                productQuery = productQuery.Where(p => p.BrandId == inData.productCategoriesId);
+                productQuery = productQuery.Where(p => inData.BrandIds.Contains(p.BrandId));
             }
 
-            if (!string.IsNullOrEmpty(inData.sort))
+            if (!string.IsNullOrEmpty(inData.Sort))
             {
-                if (inData.sort.ToLower() == "price")
+                if (inData.Sort.ToLower() == "price_htl")
                 {
-                    if (inData.sortOrder.ToLower() == "des")
-                    {
-                        productQuery = productQuery.OrderByDescending(p => p.Price);
-                    }
-                    else
-                    {
-                        productQuery = productQuery.OrderBy(p => p.Price);
-                    }
+                    productQuery = productQuery.OrderByDescending(p => p.OriginalPrice);
                 }
-
-                if (inData.sort == "name")
+                if (inData.Sort.ToLower() == "price_lth")
                 {
-                    if (inData.sortOrder.ToLower() == "des")
-                    {
-                        productQuery = productQuery.OrderByDescending(p => p.Name);
-                    }
-                    else
-                    {
-                        productQuery = productQuery.OrderBy(p => p.Name);
-                    }
+                    productQuery = productQuery.OrderBy(p => p.OriginalPrice);
+                }
+                if (inData.Sort.ToLower() == "featured")
+                {
+                    productQuery = productQuery.OrderByDescending(p => p.IsFeatured);
+                }
+                if (inData.Sort.ToLower() == "rating")
+                {
+                    productQuery = productQuery.OrderBy(p => p.AverageRating);
+                }
+                if (inData.Sort.ToLower() == "newest")
+                {
+                    productQuery = productQuery.OrderByDescending(p => p.CreatedDate);
                 }
             }
 
-            return new Pagination<Product>()
+            return new ProductPagination()
             {
-                PageIndex = inData.pageIndex,
-                PageSize = inData.pageSize,
-                Count = await _context.Products.CountAsync(),
+                PageIndex = inData.PageIndex,
+                PageSize = inData.PageSize,
                 Data = await productQuery
-                    .Skip((inData.pageIndex - 1) * inData.pageSize)
-                    .Take(inData.pageSize)
-                    .ToListAsync()
+                    .Skip((inData.PageIndex - 1) * inData.PageSize)
+                    .Take(inData.PageSize)
+                    .ToListAsync(),
+                Count = await _context.Products.CountAsync(),
+                MinPrice = await _context.Products.MinAsync(p => p.OriginalPrice),
+                MaxPrice = await _context.Products.MaxAsync(p => p.OriginalPrice),
+
             };
         }
     }

@@ -5,15 +5,6 @@ export interface FooterSection {
 
 export const footerData: FooterSection[] = [
   {
-    title: 'Sản phẩm',
-    links: [
-      { name: 'Điện thoại', url: '#' },
-      { name: 'Phụ kiện', url: '#' },
-      { name: 'Máy tính bảng', url: '#' },
-      { name: 'Smartwatch', url: '#' },
-    ],
-  },
-  {
     title: 'Hỗ trợ',
     links: [
       { name: 'Trung tâm trợ giúp', url: '#' },
@@ -39,4 +30,4 @@ export const footerData: FooterSection[] = [
   },
 ];
 
-export const footerBottomText: string = '©2025 Mạnh-Iphone. Tất cả quyền được bảo lưu.';
+export const footerBottomText: string = '©2025 BigBikeTrend. Tất cả quyền được bảo lưu.';

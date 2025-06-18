@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -91,6 +92,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -104,6 +116,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -111,7 +125,18 @@ app.UseAuthorization();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
-    RequestPath = "/image"
+    RequestPath = "/image",
+    ContentTypeProvider = new FileExtensionContentTypeProvider
+    {
+        Mappings = { [".avif"] = "image/avif" }
+    },
+    OnPrepareResponse = ctx =>
+    {
+        if (!Directory.Exists(Path.Combine(builder.Environment.ContentRootPath, "Uploads")))
+        {
+            ctx.Context.Response.StatusCode = 404;
+        }
+    }
 });
 
 app.MapControllers();

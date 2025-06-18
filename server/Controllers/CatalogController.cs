@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using server.Dto;
 using server.Entities;
 using server.Interface.Service;
@@ -11,9 +12,12 @@ namespace server.Controllers
     public class CatalogController : ControllerBase
     {
         private readonly ICatalogService _catalogService;
-        public CatalogController(ICatalogService catalogService)
+        private readonly IMapper _mapper;
+
+        public CatalogController(ICatalogService catalogService, IMapper mapper)
         {
             this._catalogService = catalogService;
+            this._mapper = mapper;
         }
 
         [HttpPost]
@@ -21,9 +25,17 @@ namespace server.Controllers
         public async Task<ActionResult<ResponseDto>> GetAllProducts(CatalogSpec catalogSpec)
         {
             ResponseDto responseDto = new ResponseDto();
-            Pagination<Product> products = await _catalogService.GetAllProducts(catalogSpec);
+            ProductPagination res = await _catalogService.GetAllProducts(catalogSpec);
 
-            responseDto.Data = products;
+            responseDto.Data = new ProductPaginationRes()
+            {
+                PageIndex = res.PageIndex,
+                PageSize = res.PageSize,
+                Data = _mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
+                Count = res.Count,
+                MinPrice = res.MinPrice,
+                MaxPrice = res.MaxPrice,
+            };
             return Ok(responseDto);
         }
 
@@ -55,7 +67,7 @@ namespace server.Controllers
             ResponseDto responseDto = new ResponseDto();
             IEnumerable<ProductCategories> productCategories = await _catalogService.GetAllProductCategories();
 
-            responseDto.Data = productCategories;
+            responseDto.Data = _mapper.Map<IEnumerable<ProductCategoriesResDto>>(productCategories);
             return Ok(responseDto);
         }
 
@@ -87,7 +99,7 @@ namespace server.Controllers
             ResponseDto responseDto = new ResponseDto();
             IEnumerable<Brand> brands = await _catalogService.GetAllBrand();
 
-            responseDto.Data = brands;
+            responseDto.Data = _mapper.Map<IEnumerable<BrandResDto>>(brands);
             return Ok(responseDto);
         }
 

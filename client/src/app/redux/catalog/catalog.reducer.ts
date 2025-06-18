@@ -1,6 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { ProductCategoriesResDto } from '../../core/models/catalog';
 import {
+  BrandResDto,
+  ProductCategoriesResDto,
+} from '../../core/models/catalog';
+import {
+  loadBrands,
+  loadBrandsFailure,
+  loadBrandSuccess,
   loadProductCategories,
   loadProductCategoriesFailure,
   loadProductCategoriesSuccess,
@@ -8,11 +14,13 @@ import {
 
 export interface CatalogState {
   productCategories: ProductCategoriesResDto[];
+  brands: BrandResDto[];
   error: any;
 }
 
 const initialState: CatalogState = {
   productCategories: [],
+  brands: [],
   error: null,
 };
 
@@ -26,6 +34,18 @@ export const catalogReducer = createReducer(
   })),
 
   on(loadProductCategoriesFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+
+  on(loadBrands, (state) => ({ ...state })),
+  on(loadBrandSuccess, (state, { brands }) => ({
+    ...state,
+    brands,
+    error: null,
+  })),
+
+  on(loadBrandsFailure, (state, { error }) => ({
     ...state,
     error,
   }))

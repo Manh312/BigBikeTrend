@@ -15,18 +15,9 @@ export class HeaderComponent {
   isMenuOpen = false;
   isMobile = window.innerWidth < 768;
 
-  // Định nghĩa mảng danh mục với icon và đường dẫn
-  productCategories = [
-    { name: 'Iphone', icon: 'phone_iphone', link: '/phones' },
-    { name: 'Ipad', icon: 'tablet_mac', link: '/tablets' },
-    { name: 'MacBook', icon: 'laptop_mac', link: '/laptops' },
-    { name: 'Tai nghe', icon: 'headphones', link: '/accessories' },
-    { name: 'Đồng hồ', icon: 'watch', link: '/apple-watch' }
-  ];
-
   navItems = [
     { name: 'Trang chủ', link: '/' },
-    { name: 'Sản phẩm', link: '/products' },
+    { name: 'Dòng xe', link: '/products' },
     { name: 'Giới thiệu', link: '/about' },
     { name: 'Liên hệ', link: '/contact' }
   ];

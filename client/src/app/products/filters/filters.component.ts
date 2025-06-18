@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BrandResDto, ProductCategoriesResDto } from '../../core/models/catalog';
+import { Observable, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectBrands, selectProductCategories } from '../../redux/catalog/catalog.selector';
+import { loadBrands } from '../../redux/catalog/catalog.action';
 
 @Component({
   selector: 'app-filters',
@@ -7,62 +11,25 @@ import { BrandResDto, ProductCategoriesResDto } from '../../core/models/catalog'
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.scss'
 })
-export class FiltersComponent {
-  productCategories: ProductCategoriesResDto[] = [
-    {
-      id: 1,
-      name: 'Tablets',
-      image: null
-    },
-    {
-      id: 2,
-      name: 'Smartphones',
-      image: null
-    },
-    {
-      id: 3,
-      name: 'Laptops',
-      image: null
-    },
-    {
-      id: 4,
-      name: 'Headphones',
-      image: null
-    },
-    {
-      id: 5,
-      name: 'Smart Watches',
-      image: null
-    },
-  ];
+export class FiltersComponent implements OnInit {
+  productCategories$: Observable <ProductCategoriesResDto[]>
 
-  brands: BrandResDto[] = [
-    {
-      id: 1,
-      name: 'Apple',
-      image: null
-    },
-    {
-      id: 2,
-      name: 'Samsung',
-      image: null
-    },
-    {
-      id: 3,
-      name: 'Xiaomi',
-      image: null
-    },
-    {
-      id: 4,
-      name: 'Huawei',
-      image: null
-    },
-    {
-      id: 5,
-      name: 'Sony',
-      image: null
-    },
-  ];
+  brands$: Observable <BrandResDto[]>
+
+  constructor(private store: Store) {
+    this.productCategories$ = this.store.select(selectProductCategories);
+    this.brands$ = this.store.select(selectBrands);
+  }
+  ngOnInit(): void {
+    this.brands$.pipe(
+      tap(brands => {
+        if (brands.length === 0) {
+          this.store.dispatch(loadBrands());
+        }
+      })
+    )
+    .subscribe();
+  }
 
   ratings = [
     { value: 5, selected: false },

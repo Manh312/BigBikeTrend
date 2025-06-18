@@ -10,7 +10,10 @@ export class CatalogService {
   constructor(private http: HttpClient) { }
 
   getProductCategories() {
-    console.log('Making HTTP request...');
     return this.http.get<ResponseDto<ProductCategoriesResDto[]>>('Catalog/productcategories/getall');
+  }
+
+  getBrands() {
+    return this.http.get<ResponseDto<ProductCategoriesResDto[]>>('Catalog/brand/getall');
   }
 }

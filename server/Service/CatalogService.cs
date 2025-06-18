@@ -120,7 +120,7 @@ namespace server.Service
             return await _productCategoriesRepository.GetAllIncludingImage();
         }
 
-        public async Task<Pagination<Product>> GetAllProducts(CatalogSpec inData)
+        public async Task<ProductPagination> GetAllProducts(CatalogSpec inData)
         {
             return await _productRepository.GetAllIncludingChildEntities(inData);
         }

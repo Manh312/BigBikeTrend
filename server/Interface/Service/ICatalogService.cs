@@ -7,7 +7,7 @@ namespace server.Interface.Service
     public interface ICatalogService
     {
         // Product
-        Task<Pagination<Product>> GetAllProducts(CatalogSpec inData);
+        Task<ProductPagination> GetAllProducts(CatalogSpec inData);
         Task<Product> CreateProduct(CreateProductReq inData);
         Task DeleteProduct(int productId);
 

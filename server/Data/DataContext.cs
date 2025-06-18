@@ -26,9 +26,15 @@ namespace server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
-                .Property(p => p.Price)
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(p => p.OriginalPrice)
                 .HasPrecision(18, 2);
+
+                entity.Property(p => p.DiscountPercentage)
+                .HasColumnType("decimal(5,2)")
+                .IsRequired(false);
+            });
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Thumbnail)
