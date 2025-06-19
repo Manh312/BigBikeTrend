@@ -14,6 +14,8 @@ import { SharedModule } from '../shared/shared.module';
 import { SortHeaderComponent } from './sort-header/sort-header.component';
 import { MatSelectModule } from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { ProductCardComponent } from './product-card/product-card.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ProductsComponent,
     PaginationComponent,
     FiltersComponent,
-    SortHeaderComponent
+    SortHeaderComponent,
+    ProductCardComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +36,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatSliderModule,
     SharedModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatCardModule
   ]
 })
 export class ProductsModule { }

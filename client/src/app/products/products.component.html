@@ -5,9 +5,12 @@
     </div>
     <div class="col-9">
       <app-sort-header (sortHeaderChanges)="sortFilterChanged($event)"></app-sort-header>
-      <p>PageIndex: {{pageIndex}}</p>
+      <!-- <p>PageIndex: {{pageIndex}}</p>
       <p>Filters: {{filters|json}}</p>
-      <p>Sort Filter: {{sortFilter|json}}</p>
+      <p>Sort Filter: {{sortFilter|json}}</p> -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <app-product-card *ngFor="let p of products" [product]="p"></app-product-card>
+      </div>
       <app-pagination [pageItems]="500" [pageSize]="5" [currentPage]="1" (pageChange)="display($event)">
       </app-pagination>
     </div>
