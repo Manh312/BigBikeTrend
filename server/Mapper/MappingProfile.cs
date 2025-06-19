@@ -19,7 +19,7 @@ namespace server.Mapper
                 .ForMember(x => x.Image, opt => opt.Ignore());
             CreateMap<ProductCategories, ProductCategoriesResDto>();
             CreateMap<Brand, BrandResDto>();
-            CreateMap<Entities.Product,  ProductResDto>();
+            CreateMap<Entities.Product, ProductResDto>();
         }
     }
 }

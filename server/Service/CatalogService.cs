@@ -4,6 +4,7 @@ using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
 using server.Interface.Services;
+using System.Text.Json;
 using Product = server.Entities.Product;
 
 namespace server.Service
@@ -15,13 +16,15 @@ namespace server.Service
         private readonly IBrandRepository _brandRepository;
         private readonly IImageService _imageService;
         private readonly IMapper _mapper;
+        private readonly IProductDetailsRepository _productDetailsRepository; 
 
         public CatalogService(
             IProductRepository productRepository,
             IProductCategoriesRepository productCategoriesRepository,
             IBrandRepository brandRepository,
             IImageService imageService,
-            IMapper mapper
+            IMapper mapper,
+            IProductDetailsRepository productDetailsRepository // Thêm tham số
             )
         {
             this._productRepository = productRepository;
@@ -29,6 +32,7 @@ namespace server.Service
             this._brandRepository = brandRepository;
             this._imageService = imageService;
             this._mapper = mapper;
+            this._productDetailsRepository = productDetailsRepository; // Khởi tạo
         }
 
         public async Task<Brand> CreateBrand(CreateBrandReq inData)
@@ -61,6 +65,20 @@ namespace server.Service
                 throw new Exception($"Invalid Brand Id {inData.BrandId}");
             }
 
+            // Xác thực JSON
+            if (string.IsNullOrEmpty(inData.Details))
+            {
+                throw new ArgumentException("Details cannot be empty", nameof(inData.Details));
+            }
+            try
+            {
+                JsonDocument.Parse(inData.Details); // Kiểm tra JSON hợp lệ
+            }
+            catch (JsonException)
+            {
+                throw new ArgumentException("Invalid JSON format in Details", nameof(inData.Details));
+            }
+
             Image image = await this._imageService.SaveImageAsync(inData.Thumbnail);
 
             Product newProduct = _mapper.Map<Product>(inData);
@@ -69,7 +87,27 @@ namespace server.Service
             newProduct.Brand = brand;
             newProduct.Thumbnail = image;
 
-            return await this._productRepository.AddAsync(newProduct);
+            using var transaction = await _productRepository.BeginTransactionAsync();
+            try
+            {
+                newProduct = await this._productRepository.AddAsync(newProduct);
+
+                ProductDetails productDetails = new ProductDetails
+                {
+                    ProductId = newProduct.Id,
+                    Details = inData.Details
+                };
+                await _productDetailsRepository.AddAsync(productDetails);
+
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            return newProduct;
         }
 
         public async Task DeleteBrand(int brandId)
@@ -107,6 +145,7 @@ namespace server.Service
             }
 
             await _imageService.DeleteImageAsync(product.ThumbnailId.Value);
+            // Product_Details sẽ tự động xóa do Cascade trong DataContext
             await _productRepository.DeleteAsync(product);
         }
 
@@ -123,6 +162,12 @@ namespace server.Service
         public async Task<ProductPagination> GetAllProducts(CatalogSpec inData)
         {
             return await _productRepository.GetAllIncludingChildEntities(inData);
+        }
+
+        public async Task<ProductDetails> GetProductDetailsByProductId(int productId)
+        {
+            return await _productDetailsRepository.GetByProductIdAsync(productId)
+                ?? throw new Exception($"No details found for Product Id {productId}");
         }
     }
 }

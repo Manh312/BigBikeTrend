@@ -3,48 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\infrastructure\\auditinterceptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\infrastructure\\auditinterceptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\dto\\catalogdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\dto\\catalogdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\dto\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\dto\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\entities\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\entities\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\data\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\data\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\controllers\\catalogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\controllers\\catalogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\service\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\service\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\interface\\repository\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\interface\\repository\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\interface\\service\\icatalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\interface\\service\\icatalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\dto\\imagedtores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\dto\\imagedtores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -55,8 +19,36 @@
       "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\entities\\auditbaseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\entities\\auditbaseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\repository\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\repository\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\interface\\repository\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\interface\\repository\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\dto\\responsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\dto\\responsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\service\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\service\\catalogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|c:\\users\\admin\\downloads\\bigbiketrend\\server\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3461765F-60A1-21BC-764E-FC799869FE2F}|server\\server.csproj|solutionrelative:server\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,178 +58,163 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CatalogController.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Controllers\\CatalogController.cs",
-              "RelativeDocumentMoniker": "server\\Controllers\\CatalogController.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Controllers\\CatalogController.cs",
-              "RelativeToolTip": "server\\Controllers\\CatalogController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACQAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:30:19.17Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CatalogService.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Service\\CatalogService.cs",
-              "RelativeDocumentMoniker": "server\\Service\\CatalogService.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Service\\CatalogService.cs",
-              "RelativeToolTip": "server\\Service\\CatalogService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:29:14.315Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Repository\\IProductRepository.cs",
-              "RelativeDocumentMoniker": "server\\Interface\\Repository\\IProductRepository.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Repository\\IProductRepository.cs",
-              "RelativeToolTip": "server\\Interface\\Repository\\IProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:28:51.682Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MappingProfile.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Mapper\\MappingProfile.cs",
-              "RelativeDocumentMoniker": "server\\Mapper\\MappingProfile.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Mapper\\MappingProfile.cs",
-              "RelativeToolTip": "server\\Mapper\\MappingProfile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:26:58.266Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\Product.cs",
-              "RelativeDocumentMoniker": "server\\Dto\\Product.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\Product.cs",
-              "RelativeToolTip": "server\\Dto\\Product.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:11:13.699Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Entities\\Product.cs",
-              "RelativeDocumentMoniker": "server\\Entities\\Product.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Entities\\Product.cs",
-              "RelativeToolTip": "server\\Entities\\Product.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAwwBkAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T09:43:55.479Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ICatalogService.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Service\\ICatalogService.cs",
-              "RelativeDocumentMoniker": "server\\Interface\\Service\\ICatalogService.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Service\\ICatalogService.cs",
-              "RelativeToolTip": "server\\Interface\\Service\\ICatalogService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:29:26.834Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "CatalogDtos.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\CatalogDtos.cs",
               "RelativeDocumentMoniker": "server\\Dto\\CatalogDtos.cs",
               "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\CatalogDtos.cs",
               "RelativeToolTip": "server\\Dto\\CatalogDtos.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAlwBoAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T09:53:51.163Z",
+              "WhenOpened": "2025-06-19T15:59:17.496Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "DataContext.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Data\\DataContext.cs",
-              "RelativeDocumentMoniker": "server\\Data\\DataContext.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Data\\DataContext.cs",
-              "RelativeToolTip": "server\\Data\\DataContext.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAgwCMAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:48:08.025Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ImageDtoRes.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\ImageDtoRes.cs",
-              "RelativeDocumentMoniker": "server\\Dto\\ImageDtoRes.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\ImageDtoRes.cs",
-              "RelativeToolTip": "server\\Dto\\ImageDtoRes.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:08:38.706Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Repository\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "server\\Repository\\ProductRepository.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Repository\\ProductRepository.cs",
-              "RelativeToolTip": "server\\Repository\\ProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T09:57:01.171Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Program.cs",
-              "RelativeDocumentMoniker": "server\\Program.cs",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Program.cs",
-              "RelativeToolTip": "server\\Program.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAcwIUAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T07:35:29.7Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\appsettings.Development.json",
               "RelativeDocumentMoniker": "server\\appsettings.Development.json",
               "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\appsettings.Development.json",
               "RelativeToolTip": "server\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAswA0AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-18T07:32:45.303Z"
+              "WhenOpened": "2025-06-19T15:23:20.598Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\appsettings.json",
-              "RelativeDocumentMoniker": "server\\appsettings.json",
-              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\appsettings.json",
-              "RelativeToolTip": "server\\appsettings.json",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Program.cs",
+              "RelativeDocumentMoniker": "server\\Program.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Program.cs",
+              "RelativeToolTip": "server\\Program.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAwwBcAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:18:57.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuditInterceptor.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Infrastructure\\AuditInterceptor.cs",
+              "RelativeDocumentMoniker": "server\\Infrastructure\\AuditInterceptor.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Infrastructure\\AuditInterceptor.cs",
+              "RelativeToolTip": "server\\Infrastructure\\AuditInterceptor.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:18:29.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "server",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\server.csproj",
+              "RelativeDocumentMoniker": "server\\server.csproj",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\server.csproj",
+              "RelativeToolTip": "server\\server.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-18T07:32:41.653Z"
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-19T15:17:58.084Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Repository\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "server\\Repository\\GenericRepository.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Repository\\GenericRepository.cs",
+              "RelativeToolTip": "server\\Repository\\GenericRepository.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:08:27.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IGenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Repository\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "server\\Interface\\Repository\\IGenericRepository.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Interface\\Repository\\IGenericRepository.cs",
+              "RelativeToolTip": "server\\Interface\\Repository\\IGenericRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:08:22.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuditBaseEntity.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Entities\\AuditBaseEntity.cs",
+              "RelativeDocumentMoniker": "server\\Entities\\AuditBaseEntity.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Entities\\AuditBaseEntity.cs",
+              "RelativeToolTip": "server\\Entities\\AuditBaseEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:08:08.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\UserDto.cs",
+              "RelativeDocumentMoniker": "server\\Dto\\UserDto.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\UserDto.cs",
+              "RelativeToolTip": "server\\Dto\\UserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:08:03.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\ResponseDto.cs",
+              "RelativeDocumentMoniker": "server\\Dto\\ResponseDto.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Dto\\ResponseDto.cs",
+              "RelativeToolTip": "server\\Dto\\ResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:08:01.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CatalogService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Service\\CatalogService.cs",
+              "RelativeDocumentMoniker": "server\\Service\\CatalogService.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Service\\CatalogService.cs",
+              "RelativeToolTip": "server\\Service\\CatalogService.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAIwEQAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T15:02:28.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Mapper\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "server\\Mapper\\MappingProfile.cs",
+              "ToolTip": "C:\\Users\\admin\\Downloads\\BigBikeTrend\\server\\Mapper\\MappingProfile.cs",
+              "RelativeToolTip": "server\\Mapper\\MappingProfile.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T14:58:22.875Z",
+              "EditorCaption": ""
             }
           ]
         }

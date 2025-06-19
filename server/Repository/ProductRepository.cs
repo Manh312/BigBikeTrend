@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using server.Data;
 using server.Dto;
 using server.Entities;
@@ -15,6 +16,11 @@ namespace server.Repository
             this._context = context;
         }
 
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
+
         public async Task<ProductPagination> GetAllIncludingChildEntities(CatalogSpec inData)
         {
             IQueryable<Product> productQuery = _context.Products
@@ -22,6 +28,30 @@ namespace server.Repository
                 .Include(p => p.Brand)
                 .Include(p => p.Thumbnail)
                 .AsQueryable();
+
+            // Thực hiện join với Product_Details
+            productQuery = productQuery
+                .GroupJoin(_context.ProductDetails,
+                    p => p.Id,
+                    pd => pd.ProductId,
+                    (product, details) => new { Product = product, Details = details.DefaultIfEmpty() })
+                .SelectMany(x => x.Details.DefaultIfEmpty(),
+                    (product, detail) => new Product
+                    {
+                        Id = product.Product.Id,
+                        Name = product.Product.Name,
+                        Description = product.Product.Description,
+                        OriginalPrice = product.Product.OriginalPrice,
+                        DiscountPercentage = product.Product.DiscountPercentage,
+                        DiscountAmount = product.Product.DiscountAmount,
+                        StockQuantity = product.Product.StockQuantity,
+                        AverageRating = product.Product.AverageRating,
+                        TotalReviews = product.Product.TotalReviews,
+                        IsFeatured = product.Product.IsFeatured,
+                        ProductCategories = product.Product.ProductCategories,
+                        Brand = product.Product.Brand,
+                        Thumbnail = product.Product.Thumbnail,
+                    });
 
             if (!string.IsNullOrEmpty(inData.Search))
             {

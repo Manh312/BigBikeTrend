@@ -1,15 +1,21 @@
-﻿namespace server.Dto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace server.Dto
 {
     public class CreateProductReq
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public decimal OriginalPrice { get; set; } 
+        public decimal? DiscountPercentage { get; set; }
+        public decimal? DiscountAmount { get; set; } 
         public int StockQuantity { get; set; }
         public bool IsFeatured { get; set; } = false;
         public int BrandId { get; set; }
         public int ProductCategoryId { get; set; }
         public IFormFile Thumbnail { get; set; }
+        [Required(ErrorMessage = "Details is required")]
+        public string Details { get; set; }
     }
 
     public class CreateBrandReq

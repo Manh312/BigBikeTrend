@@ -20,5 +20,8 @@ namespace server.Interface.Service
         Task<IEnumerable<ProductCategories>> GetAllProductCategories();
         Task<ProductCategories> CreateProductCategories(CreateProductCategoriesReq inData);
         Task DeleteProductCategories(int productCategoriesId);
+
+        // Product_Details (thêm mới)
+        Task<ProductDetails> GetProductDetailsByProductId(int productId);
     }
 }

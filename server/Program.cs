@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using server.Data;
 using server.Helper;
 using server.Interface.Repository;
 using server.Interface.Service;
 using server.Interface.Services;
-using server.Mapper;
 using server.Repository;
 using server.Service;
+using Server.Infrastructure.Interceptors;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,9 +20,15 @@ IConfiguration configuration = builder.Configuration;
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-// Add services to the container.
-builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(configuration["ConnectionStrings:Auth"]));
+builder.Services.AddScoped<AuditInterceptor>();
+builder.Services.AddHttpContextAccessor();
 
+// Add services to the container.
+builder.Services.AddDbContext<DataContext>((serviceProvider, opt) =>
+{
+    opt.UseSqlServer(configuration["ConnectionStrings:Auth"])
+       .AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
+}, ServiceLifetime.Scoped); // ??m b?o lifetime kh?p v?i service
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -54,6 +61,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductDetailsRepository, ProductDetailsRepository>();
 builder.Services.AddScoped<IProductCategoriesRepository, ProductCategoriesRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
@@ -103,8 +111,21 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Thêm Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+});
+
 
 var app = builder.Build();
+
+// S? d?ng middleware ?? ??t Content-Type
+app.Use((context, next) =>
+{
+    context.Response.ContentType = "application/json";
+    return next();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

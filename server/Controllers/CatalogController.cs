@@ -27,11 +27,13 @@ namespace server.Controllers
             ResponseDto responseDto = new ResponseDto();
             ProductPagination res = await _catalogService.GetAllProducts(catalogSpec);
 
+            var productResDtos = _mapper.Map<IReadOnlyList<ProductResDto>>(res.Data);
+
             responseDto.Data = new ProductPaginationRes()
             {
                 PageIndex = res.PageIndex,
                 PageSize = res.PageSize,
-                Data = _mapper.Map<IReadOnlyList<ProductResDto>>(res.Data),
+                Data = productResDtos,
                 Count = res.Count,
                 MinPrice = res.MinPrice,
                 MaxPrice = res.MaxPrice,
@@ -39,17 +41,19 @@ namespace server.Controllers
             return Ok(responseDto);
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Route("product/create")]
         public async Task<ActionResult<ResponseDto>> CreateProduct(CreateProductReq newProduct)
         {
             Product product = await _catalogService.CreateProduct(newProduct);
-            ResponseDto responseDto = new ResponseDto();
-            responseDto.Data = product;
+            ResponseDto responseDto = new ResponseDto
+            {
+                Data = _mapper.Map<ProductResDto>(product) // Ánh xạ Product sang ProductResDto
+            };
             return Ok(responseDto);
         }
 
-        [HttpDelete()]
+        [HttpDelete]
         [Route("product/delete/{productId}")]
         public async Task<ActionResult<ResponseDto>> DeleteProducts(int productId)
         {
@@ -71,7 +75,7 @@ namespace server.Controllers
             return Ok(responseDto);
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Route("productcategories/create")]
         public async Task<ActionResult<ResponseDto>> CreateProductCategories(CreateProductCategoriesReq newProductCategories)
         {
@@ -81,8 +85,8 @@ namespace server.Controllers
             return Ok(responseDto);
         }
 
-        [HttpDelete()]
-        [Route("productcategories/delete/{productId}")]
+        [HttpDelete]
+        [Route("productcategories/delete/{productCategoriesId}")]
         public async Task<ActionResult<ResponseDto>> DeleteProductCategories(int productCategoriesId)
         {
             ResponseDto responseDto = new ResponseDto();
@@ -103,7 +107,7 @@ namespace server.Controllers
             return Ok(responseDto);
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Route("brand/create")]
         public async Task<ActionResult<ResponseDto>> CreateBrand(CreateBrandReq newBrand)
         {
@@ -113,8 +117,8 @@ namespace server.Controllers
             return Ok(responseDto);
         }
 
-        [HttpDelete()]
-        [Route("brand/delete/{productId}")]
+        [HttpDelete]
+        [Route("brand/delete/{brandId}")]
         public async Task<ActionResult<ResponseDto>> DeleteBrand(int brandId)
         {
             ResponseDto responseDto = new ResponseDto();

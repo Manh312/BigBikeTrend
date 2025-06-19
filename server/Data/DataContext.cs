@@ -34,6 +34,9 @@ namespace server.Data
                 entity.Property(p => p.DiscountPercentage)
                 .HasColumnType("decimal(5,2)")
                 .IsRequired(false);
+
+                entity.Property(p => p.DiscountAmount) 
+                .HasPrecision(18, 2);
             });
 
             modelBuilder.Entity<Product>()
@@ -41,6 +44,18 @@ namespace server.Data
                 .WithOne(i => i.Product)
                 .HasForeignKey<Product>(p => p.ThumbnailId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ProductDetails>(entity =>
+            {
+                entity.HasKey(pd => pd.Id);
+                entity.Property(pd => pd.Details)
+                    .HasColumnType("nvarchar(max)"); // Định nghĩa kiểu JSON (SQL Server)
+
+                entity.HasOne(pd => pd.Product)
+                    .WithMany() // Giả sử một sản phẩm có thể có nhiều chi tiết (nếu cần mối quan hệ ngược, điều chỉnh)
+                    .HasForeignKey(pd => pd.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade); // Xóa cascade khi Product bị xóa
+            });
 
             modelBuilder.Entity<ProductCategories>()
                 .HasOne(p => p.Image)
@@ -60,6 +75,7 @@ namespace server.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductDetails> ProductDetails { get; set; }
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<ProductCategories> ProductCategories { get; set; }
         public DbSet<Image> Images { get; set; }
