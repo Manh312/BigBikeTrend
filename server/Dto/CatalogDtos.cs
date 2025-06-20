@@ -4,46 +4,66 @@ namespace server.Dto
 {
     public class CreateProductReq
     {
+        [Required(ErrorMessage = "Tên sản phẩm là bắt buộc.")]
         public string Name { get; set; }
+
         public string Description { get; set; }
-        public decimal OriginalPrice { get; set; } 
+
+        [Required(ErrorMessage = "Giá gốc là bắt buộc.")]
+        public decimal OriginalPrice { get; set; }
+
         public decimal? DiscountPercentage { get; set; }
-        public decimal? DiscountAmount { get; set; } 
+        public decimal? DiscountAmount { get; set; }
+
+        [Required(ErrorMessage = "Số lượng tồn kho là bắt buộc.")]
         public int StockQuantity { get; set; }
+
         public bool IsFeatured { get; set; } = false;
+
+        [Required(ErrorMessage = "ID thương hiệu là bắt buộc.")]
         public int BrandId { get; set; }
+
+        [Required(ErrorMessage = "ID danh mục sản phẩm là bắt buộc.")]
         public int ProductCategoryId { get; set; }
+
+        [Required(ErrorMessage = "Hình ảnh đại diện là bắt buộc.")]
         public IFormFile Thumbnail { get; set; }
-        [Required(ErrorMessage = "Details is required")]
+
+        [Required(ErrorMessage = "Chi tiết sản phẩm là bắt buộc.")]
         public string Details { get; set; }
     }
 
     public class CreateBrandReq
     {
+        [Required(ErrorMessage = "Tên thương hiệu là bắt buộc.")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Hình ảnh thương hiệu là bắt buộc.")]
         public IFormFile Image { get; set; }
     }
 
     public class CreateProductCategoriesReq
     {
+        [Required(ErrorMessage = "Tên danh mục sản phẩm là bắt buộc.")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Hình ảnh danh mục sản phẩm là bắt buộc.")]
         public IFormFile Image { get; set; }
     }
 
-    public class CatalogSpec 
+    public class CatalogSpec
     {
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public int[]? BrandIds { get; set; }
         public int[]? productCategoriesIds { get; set; }
         public int[]? Ratings { get; set; }
-
         public string? Search { get; set; }
         public bool? InStock { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
         public string? Sort { get; set; }
-        public string? SortOrder { get; set; } = "asc"; 
+        public string? SortOrder { get; set; } = "asc";
     }
 
     public class ProductCategoriesResDto
@@ -60,7 +80,7 @@ namespace server.Dto
         public ImageDtoRes? Image { get; set; }
     }
 
-    public class  ProductResDto 
+    public class ProductResDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -86,9 +106,15 @@ namespace server.Dto
         public decimal? MaxPrice { get; set; }
     }
 
-    public class ProductPaginationRes: Pagination<ProductResDto>
+    public class ProductPaginationRes : Pagination<ProductResDto>
     {
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
+    }
+
+    public class ProductDetailsResDto
+    {
+        public int ProductId { get; set; }
+        public string Details { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace server.Controllers
 
         public CatalogController(ICatalogService catalogService, IMapper mapper)
         {
-            this._catalogService = catalogService;
-            this._mapper = mapper;
+            _catalogService = catalogService ?? throw new ArgumentNullException(nameof(catalogService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpPost]
@@ -25,32 +25,84 @@ namespace server.Controllers
         public async Task<ActionResult<ResponseDto>> GetAllProducts(CatalogSpec catalogSpec)
         {
             ResponseDto responseDto = new ResponseDto();
-            ProductPagination res = await _catalogService.GetAllProducts(catalogSpec);
-
-            var productResDtos = _mapper.Map<IReadOnlyList<ProductResDto>>(res.Data);
-
-            responseDto.Data = new ProductPaginationRes()
+            try
             {
-                PageIndex = res.PageIndex,
-                PageSize = res.PageSize,
-                Data = productResDtos,
-                Count = res.Count,
-                MinPrice = res.MinPrice,
-                MaxPrice = res.MaxPrice,
-            };
-            return Ok(responseDto);
+                if (catalogSpec == null)
+                {
+                    responseDto.Message = "Thông số danh mục không được để trống.";
+                    return BadRequest(responseDto);
+                }
+
+                if (catalogSpec.PageIndex < 0 || catalogSpec.PageSize <= 0)
+                {
+                    responseDto.Message = "Tham số phân trang không hợp lệ. PageIndex phải không âm và PageSize phải lớn hơn 0.";
+                    return BadRequest(responseDto);
+                }
+
+                ProductPagination res = await _catalogService.GetAllProducts(catalogSpec);
+
+                var productResDtos = _mapper.Map<IReadOnlyList<ProductResDto>>(res.Data);
+
+                responseDto.Data = new ProductPaginationRes()
+                {
+                    PageIndex = res.PageIndex,
+                    PageSize = res.PageSize,
+                    Data = productResDtos,
+                    Count = res.Count,
+                    MinPrice = res.MinPrice,
+                    MaxPrice = res.MaxPrice,
+                };
+                if (!productResDtos.Any())
+                {
+                    responseDto.Message = "Không có dữ liệu sản phẩm.";
+                }
+                else
+                {
+                    responseDto.Message = "Lấy danh sách sản phẩm thành công.";
+                }
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi lấy danh sách sản phẩm: {ex.Message}";
+                return StatusCode(500, responseDto);
+            }
         }
 
         [HttpPost]
         [Route("product/create")]
         public async Task<ActionResult<ResponseDto>> CreateProduct(CreateProductReq newProduct)
         {
-            Product product = await _catalogService.CreateProduct(newProduct);
-            ResponseDto responseDto = new ResponseDto
+            ResponseDto responseDto = new ResponseDto();
+            if (!ModelState.IsValid)
             {
-                Data = _mapper.Map<ProductResDto>(product) // Ánh xạ Product sang ProductResDto
-            };
-            return Ok(responseDto);
+                responseDto.Message = "Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại các trường yêu cầu.";
+                return BadRequest(responseDto);
+            }
+            try
+            {
+                if (newProduct == null)
+                {
+                    responseDto.Message = "Dữ liệu sản phẩm không được để trống.";
+                    return BadRequest(responseDto);
+                }
+
+                if (string.IsNullOrEmpty(newProduct.Name) || newProduct.OriginalPrice <= 0 || newProduct.ProductCategoryId <= 0 || newProduct.BrandId <= 0)
+                {
+                    responseDto.Message = "Dữ liệu sản phẩm không hợp lệ. Tên, giá, ID danh mục sản phẩm và ID thương hiệu là bắt buộc.";
+                    return BadRequest(responseDto);
+                }
+
+                Product product = await _catalogService.CreateProduct(newProduct);
+                responseDto.Data = _mapper.Map<ProductResDto>(product);
+                responseDto.Message = "Tạo sản phẩm thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi tạo sản phẩm: {ex.Message}";
+                return BadRequest(responseDto);
+            }
         }
 
         [HttpDelete]
@@ -58,31 +110,81 @@ namespace server.Controllers
         public async Task<ActionResult<ResponseDto>> DeleteProducts(int productId)
         {
             ResponseDto responseDto = new ResponseDto();
+            try
+            {
+                if (productId <= 0)
+                {
+                    responseDto.Message = "ID sản phẩm không hợp lệ.";
+                    return BadRequest(responseDto);
+                }
 
-            await _catalogService.DeleteProduct(productId);
-            return Ok(responseDto);
+                await _catalogService.DeleteProduct(productId);
+                responseDto.Message = "Xóa sản phẩm thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi xóa sản phẩm: {ex.Message}";
+                return NotFound(responseDto);
+            }
         }
 
-        // Product Categories API Endpoints
         [HttpGet]
         [Route("productcategories/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllProductCategories()
         {
             ResponseDto responseDto = new ResponseDto();
-            IEnumerable<ProductCategories> productCategories = await _catalogService.GetAllProductCategories();
+            try
+            {
+                IEnumerable<ProductCategories> productCategories = await _catalogService.GetAllProductCategories();
 
-            responseDto.Data = _mapper.Map<IEnumerable<ProductCategoriesResDto>>(productCategories);
-            return Ok(responseDto);
+                var productCategoriesResDtos = _mapper.Map<IEnumerable<ProductCategoriesResDto>>(productCategories);
+                responseDto.Data = productCategoriesResDtos;
+                if (!productCategoriesResDtos.Any())
+                {
+                    responseDto.Message = "Không có dữ liệu danh mục sản phẩm.";
+                }
+                else
+                {
+                    responseDto.Message = "Lấy danh sách danh mục sản phẩm thành công.";
+                }
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi lấy danh sách danh mục sản phẩm: {ex.Message}";
+                return StatusCode(500, responseDto);
+            }
         }
 
         [HttpPost]
         [Route("productcategories/create")]
         public async Task<ActionResult<ResponseDto>> CreateProductCategories(CreateProductCategoriesReq newProductCategories)
         {
-            ProductCategories productCategories = await _catalogService.CreateProductCategories(newProductCategories);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.Data = productCategories;
-            return Ok(responseDto);
+            if (!ModelState.IsValid)
+            {
+                responseDto.Message = "Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại các trường yêu cầu.";
+                return BadRequest(responseDto);
+            }
+            try
+            {
+                if (newProductCategories == null || string.IsNullOrEmpty(newProductCategories.Name))
+                {
+                    responseDto.Message = "Dữ liệu danh mục sản phẩm không hợp lệ. Tên là bắt buộc.";
+                    return BadRequest(responseDto);
+                }
+
+                ProductCategories productCategories = await _catalogService.CreateProductCategories(newProductCategories);
+                responseDto.Data = _mapper.Map<ProductCategoriesResDto>(productCategories);
+                responseDto.Message = "Tạo danh mục sản phẩm thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi tạo danh mục sản phẩm: {ex.Message}";
+                return BadRequest(responseDto);
+            }
         }
 
         [HttpDelete]
@@ -90,31 +192,81 @@ namespace server.Controllers
         public async Task<ActionResult<ResponseDto>> DeleteProductCategories(int productCategoriesId)
         {
             ResponseDto responseDto = new ResponseDto();
+            try
+            {
+                if (productCategoriesId <= 0)
+                {
+                    responseDto.Message = "ID danh mục sản phẩm không hợp lệ.";
+                    return BadRequest(responseDto);
+                }
 
-            await _catalogService.DeleteProductCategories(productCategoriesId);
-            return Ok(responseDto);
+                await _catalogService.DeleteProductCategories(productCategoriesId);
+                responseDto.Message = "Xóa danh mục sản phẩm thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi xóa danh mục sản phẩm: {ex.Message}";
+                return NotFound(responseDto);
+            }
         }
 
-        // Brand API Endpoints
         [HttpGet]
         [Route("brand/getall")]
         public async Task<ActionResult<ResponseDto>> GetAllBrand()
         {
             ResponseDto responseDto = new ResponseDto();
-            IEnumerable<Brand> brands = await _catalogService.GetAllBrand();
+            try
+            {
+                IEnumerable<Brand> brands = await _catalogService.GetAllBrand();
 
-            responseDto.Data = _mapper.Map<IEnumerable<BrandResDto>>(brands);
-            return Ok(responseDto);
+                var brandResDtos = _mapper.Map<IEnumerable<BrandResDto>>(brands);
+                responseDto.Data = brandResDtos;
+                if (!brandResDtos.Any())
+                {
+                    responseDto.Message = "Không có dữ liệu thương hiệu.";
+                }
+                else
+                {
+                    responseDto.Message = "Lấy danh sách thương hiệu thành công.";
+                }
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi lấy danh sách thương hiệu: {ex.Message}";
+                return StatusCode(500, responseDto);
+            }
         }
 
         [HttpPost]
         [Route("brand/create")]
         public async Task<ActionResult<ResponseDto>> CreateBrand(CreateBrandReq newBrand)
         {
-            Brand brand = await _catalogService.CreateBrand(newBrand);
             ResponseDto responseDto = new ResponseDto();
-            responseDto.Data = brand;
-            return Ok(responseDto);
+            if (!ModelState.IsValid)
+            {
+                responseDto.Message = "Dữ liệu đầu vào không hợp lệ. Vui lòng kiểm tra lại các trường yêu cầu.";
+                return BadRequest(responseDto);
+            }
+            try
+            {
+                if (newBrand == null || string.IsNullOrEmpty(newBrand.Name))
+                {
+                    responseDto.Message = "Dữ liệu thương hiệu không hợp lệ. Tên là bắt buộc.";
+                    return BadRequest(responseDto);
+                }
+
+                Brand brand = await _catalogService.CreateBrand(newBrand);
+                responseDto.Data = _mapper.Map<BrandResDto>(brand);
+                responseDto.Message = "Tạo thương hiệu thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi tạo thương hiệu: {ex.Message}";
+                return BadRequest(responseDto);
+            }
         }
 
         [HttpDelete]
@@ -122,9 +274,48 @@ namespace server.Controllers
         public async Task<ActionResult<ResponseDto>> DeleteBrand(int brandId)
         {
             ResponseDto responseDto = new ResponseDto();
+            try
+            {
+                if (brandId <= 0)
+                {
+                    responseDto.Message = "ID thương hiệu không hợp lệ.";
+                    return BadRequest(responseDto);
+                }
 
-            await _catalogService.DeleteBrand(brandId);
-            return Ok(responseDto);
+                await _catalogService.DeleteBrand(brandId);
+                responseDto.Message = "Xóa thương hiệu thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi xóa thương hiệu: {ex.Message}";
+                return NotFound(responseDto);
+            }
+        }
+
+        [HttpGet]
+        [Route("productdetail/getbyid")]
+        public async Task<ActionResult<ResponseDto>> GetProductDetailByProductId(int productId)
+        {
+            ResponseDto responseDto = new ResponseDto();
+            try
+            {
+                if (productId <= 0)
+                {
+                    responseDto.Message = "ID sản phẩm không hợp lệ.";
+                    return BadRequest(responseDto);
+                }
+
+                ProductDetails productDetails = await _catalogService.GetProductDetailsByProductId(productId);
+                responseDto.Data = _mapper.Map<ProductDetailsResDto>(productDetails);
+                responseDto.Message = "Lấy chi tiết sản phẩm thành công.";
+                return Ok(responseDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Message = $"Lỗi khi lấy chi tiết sản phẩm: {ex.Message}";
+                return NotFound(responseDto);
+            }
         }
     }
 }

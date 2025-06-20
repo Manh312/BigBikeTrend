@@ -20,6 +20,7 @@ namespace server.Mapper
             CreateMap<ProductCategories, ProductCategoriesResDto>();
             CreateMap<Brand, BrandResDto>();
             CreateMap<Entities.Product, ProductResDto>();
+            CreateMap<ProductDetails, ProductDetailsResDto>();
         }
     }
 }

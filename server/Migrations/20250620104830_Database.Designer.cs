@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250619145350_Database")]
+    [Migration("20250620104830_Database")]
     partial class Database
     {
         /// <inheritdoc />
@@ -50,7 +50,8 @@ namespace server.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
@@ -187,6 +188,11 @@ namespace server.Migrations
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");

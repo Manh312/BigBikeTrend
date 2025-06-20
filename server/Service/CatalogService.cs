@@ -16,7 +16,7 @@ namespace server.Service
         private readonly IBrandRepository _brandRepository;
         private readonly IImageService _imageService;
         private readonly IMapper _mapper;
-        private readonly IProductDetailsRepository _productDetailsRepository; 
+        private readonly IProductDetailsRepository _productDetailsRepository;
 
         public CatalogService(
             IProductRepository productRepository,
@@ -24,20 +24,22 @@ namespace server.Service
             IBrandRepository brandRepository,
             IImageService imageService,
             IMapper mapper,
-            IProductDetailsRepository productDetailsRepository // Thêm tham số
-            )
+            IProductDetailsRepository productDetailsRepository)
         {
-            this._productRepository = productRepository;
-            this._productCategoriesRepository = productCategoriesRepository;
-            this._brandRepository = brandRepository;
-            this._imageService = imageService;
-            this._mapper = mapper;
-            this._productDetailsRepository = productDetailsRepository; // Khởi tạo
+            _productRepository = productRepository;
+            _productCategoriesRepository = productCategoriesRepository;
+            _brandRepository = brandRepository;
+            _imageService = imageService;
+            _mapper = mapper;
+            _productDetailsRepository = productDetailsRepository;
         }
 
         public async Task<Brand> CreateBrand(CreateBrandReq inData)
         {
-            Image image = await this._imageService.SaveImageAsync(inData.Image);
+            if (inData == null)
+                throw new ArgumentNullException(nameof(inData), "Dữ liệu thương hiệu không được để trống.");
+
+            Image image = await _imageService.SaveImageAsync(inData.Image);
             Brand brand = _mapper.Map<Brand>(inData);
             brand.ImageId = image.Id;
             return await _brandRepository.AddAsync(brand);
@@ -45,44 +47,43 @@ namespace server.Service
 
         public async Task<ProductCategories> CreateProductCategories(CreateProductCategoriesReq inData)
         {
-            Image image = await this._imageService.SaveImageAsync(inData.Image);
+            if (inData == null)
+                throw new ArgumentNullException(nameof(inData), "Dữ liệu danh mục sản phẩm không được để trống.");
+
+            Image image = await _imageService.SaveImageAsync(inData.Image);
             ProductCategories productCategories = _mapper.Map<ProductCategories>(inData);
             productCategories.Image = image;
             return await _productCategoriesRepository.AddAsync(productCategories);
         }
 
-        public async Task<Entities.Product> CreateProduct(CreateProductReq inData)
+        public async Task<Product> CreateProduct(CreateProductReq inData)
         {
-            ProductCategories? productCategories = await this._productCategoriesRepository.GetByIdAsync(inData.ProductCategoryId);
-            Brand? brand = await this._brandRepository.GetByIdAsync(inData.BrandId);
+            if (inData == null)
+                throw new ArgumentNullException(nameof(inData), "Dữ liệu sản phẩm không được để trống.");
+
+            ProductCategories? productCategories = await _productCategoriesRepository.GetByIdAsync(inData.ProductCategoryId);
+            Brand? brand = await _brandRepository.GetByIdAsync(inData.BrandId);
 
             if (productCategories == null)
-            {
-                throw new Exception($"Invalid Product Categories Id {inData.ProductCategoryId}");
-            }
+                throw new Exception($"ID danh mục sản phẩm {inData.ProductCategoryId} không hợp lệ.");
             if (brand == null)
-            {
-                throw new Exception($"Invalid Brand Id {inData.BrandId}");
-            }
+                throw new Exception($"ID thương hiệu {inData.BrandId} không hợp lệ.");
 
-            // Xác thực JSON
             if (string.IsNullOrEmpty(inData.Details))
-            {
-                throw new ArgumentException("Details cannot be empty", nameof(inData.Details));
-            }
+                throw new ArgumentException("Chi tiết sản phẩm không được để trống.", nameof(inData.Details));
+
             try
             {
-                JsonDocument.Parse(inData.Details); // Kiểm tra JSON hợp lệ
+                JsonDocument.Parse(inData.Details);
             }
             catch (JsonException)
             {
-                throw new ArgumentException("Invalid JSON format in Details", nameof(inData.Details));
+                throw new ArgumentException("Định dạng JSON trong chi tiết sản phẩm không hợp lệ.", nameof(inData.Details));
             }
 
-            Image image = await this._imageService.SaveImageAsync(inData.Thumbnail);
+            Image image = await _imageService.SaveImageAsync(inData.Thumbnail);
 
             Product newProduct = _mapper.Map<Product>(inData);
-
             newProduct.ProductCategories = productCategories;
             newProduct.Brand = brand;
             newProduct.Thumbnail = image;
@@ -90,7 +91,7 @@ namespace server.Service
             using var transaction = await _productRepository.BeginTransactionAsync();
             try
             {
-                newProduct = await this._productRepository.AddAsync(newProduct);
+                newProduct = await _productRepository.AddAsync(newProduct);
 
                 ProductDetails productDetails = new ProductDetails
                 {
@@ -104,7 +105,7 @@ namespace server.Service
             catch
             {
                 await transaction.RollbackAsync();
-                throw;
+                throw new Exception("Lỗi khi tạo sản phẩm và chi tiết sản phẩm.");
             }
 
             return newProduct;
@@ -112,14 +113,11 @@ namespace server.Service
 
         public async Task DeleteBrand(int brandId)
         {
-            Brand? brand = await this._brandRepository.GetByIdAsync(brandId);
+            Brand? brand = await _brandRepository.GetByIdAsync(brandId);
             if (brand == null)
-            {
-                throw new Exception($"Invalid Brand Id {brandId}");
-            }
+                throw new Exception($"ID thương hiệu {brandId} không hợp lệ.");
 
             await _imageService.DeleteImageAsync(brand.ImageId.Value);
-
             await _brandRepository.DeleteAsync(brand);
         }
 
@@ -127,12 +125,9 @@ namespace server.Service
         {
             ProductCategories? productCategories = await _productCategoriesRepository.GetByIdAsync(productCategoriesId);
             if (productCategories == null)
-            {
-                throw new Exception($"Invalid Product Categories Id {productCategoriesId}");
-            }
+                throw new Exception($"ID danh mục sản phẩm {productCategoriesId} không hợp lệ.");
 
             await _imageService.DeleteImageAsync(productCategories.ImageId.Value);
-
             await _productCategoriesRepository.DeleteAsync(productCategories);
         }
 
@@ -140,34 +135,45 @@ namespace server.Service
         {
             Product? product = await _productRepository.GetByIdAsync(productId);
             if (product == null)
-            {
-                throw new Exception($"Invalid Product Id {productId}");
-            }
+                throw new Exception($"ID sản phẩm {productId} không hợp lệ.");
 
             await _imageService.DeleteImageAsync(product.ThumbnailId.Value);
-            // Product_Details sẽ tự động xóa do Cascade trong DataContext
             await _productRepository.DeleteAsync(product);
         }
 
         public async Task<IEnumerable<Brand>> GetAllBrand()
         {
-            return await _brandRepository.GetAllIncludingImage();
+            var brands = await _brandRepository.GetAllIncludingImage();
+            if (!brands.Any())
+                throw new Exception("Không có dữ liệu thương hiệu.");
+            return brands;
         }
 
         public async Task<IEnumerable<ProductCategories>> GetAllProductCategories()
         {
-            return await _productCategoriesRepository.GetAllIncludingImage();
+            var productCategories = await _productCategoriesRepository.GetAllIncludingImage();
+            if (!productCategories.Any())
+                throw new Exception("Không có dữ liệu danh mục sản phẩm.");
+            return productCategories;
         }
 
         public async Task<ProductPagination> GetAllProducts(CatalogSpec inData)
         {
-            return await _productRepository.GetAllIncludingChildEntities(inData);
+            if (inData == null)
+                throw new ArgumentNullException(nameof(inData), "Thông số danh mục không được để trống.");
+
+            var products = await _productRepository.GetAllIncludingChildEntities(inData);
+            if (!products.Data.Any())
+                throw new Exception("Không có dữ liệu sản phẩm.");
+            return products;
         }
 
         public async Task<ProductDetails> GetProductDetailsByProductId(int productId)
         {
-            return await _productDetailsRepository.GetByProductIdAsync(productId)
-                ?? throw new Exception($"No details found for Product Id {productId}");
+            var productDetails = await _productDetailsRepository.GetByProductIdAsync(productId);
+            if (productDetails == null)
+                throw new Exception($"Không tìm thấy chi tiết sản phẩm cho ID sản phẩm {productId}.");
+            return productDetails;
         }
     }
 }

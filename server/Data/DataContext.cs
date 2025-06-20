@@ -6,16 +6,16 @@ namespace server.Data
     public class DataContext : DbContext
     {
         private readonly IConfiguration _config;
-        public DataContext(DbContextOptions<DataContext> options, IConfiguration config): base(options)
+        public DataContext(DbContextOptions<DataContext> options, IConfiguration config) : base(options)
         {
             this._config = config;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = _config["ConnectionStrings:Auth"]?? throw new Exception("Connection string missing");
-            string dbName = _config["ConnectionStrings:DbName"] ?? throw new Exception("DbName Missing");
-            string dbUser = _config["ConnectionStrings:DbUserId"] ?? throw new Exception("Db UserName Missing");
-            string dbPassword = _config["ConnectionStrings:DbUserPassword"] ?? throw new Exception("Db User Password Missing");
+            string connectionString = _config["ConnectionStrings:Auth"] ?? throw new Exception("Chuỗi kết nối bị thiếu.");
+            string dbName = _config["ConnectionStrings:DbName"] ?? throw new Exception("Tên cơ sở dữ liệu bị thiếu.");
+            string dbUser = _config["ConnectionStrings:DbUserId"] ?? throw new Exception("Tên người dùng cơ sở dữ liệu bị thiếu.");
+            string dbPassword = _config["ConnectionStrings:DbUserPassword"] ?? throw new Exception("Mật khẩu người dùng cơ sở dữ liệu bị thiếu.");
 
             string ConnectionStrings = String.Format(connectionString, dbName, dbUser, dbPassword);
 
@@ -35,7 +35,7 @@ namespace server.Data
                 .HasColumnType("decimal(5,2)")
                 .IsRequired(false);
 
-                entity.Property(p => p.DiscountAmount) 
+                entity.Property(p => p.DiscountAmount)
                 .HasPrecision(18, 2);
             });
 
@@ -57,17 +57,29 @@ namespace server.Data
                     .OnDelete(DeleteBehavior.Cascade); // Xóa cascade khi Product bị xóa
             });
 
-            modelBuilder.Entity<ProductCategories>()
-                .HasOne(p => p.Image)
-                .WithOne(i => i.ProductCategories)
-                .HasForeignKey<ProductCategories>(p => p.ImageId)
-                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<ProductCategories>(entity =>
+            {
+                entity.Property(p => p.Name)
+                    .HasMaxLength(50)
+                    .IsRequired();
 
-            modelBuilder.Entity<Brand>()
-                .HasOne(p => p.Image)
-                .WithOne(i => i.Brand)
-                .HasForeignKey<Brand>(p => p.ImageId)
-                .OnDelete(DeleteBehavior.SetNull);
+                entity.HasOne(p => p.Image)
+                    .WithOne(i => i.ProductCategories)
+                    .HasForeignKey<ProductCategories>(p => p.ImageId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<Brand>(entity =>
+            {
+                entity.Property(b => b.Name)
+                    .HasMaxLength(50)
+                    .IsRequired();
+
+                entity.HasOne(p => p.Image)
+                    .WithOne(i => i.Brand)
+                    .HasForeignKey<Brand>(p => p.ImageId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
 
             base.OnModelCreating(modelBuilder);
         }
@@ -79,6 +91,5 @@ namespace server.Data
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<ProductCategories> ProductCategories { get; set; }
         public DbSet<Image> Images { get; set; }
-
     }
 }
