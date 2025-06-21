@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using server.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace server.Dto
 {
@@ -30,7 +32,7 @@ namespace server.Dto
         public IFormFile Thumbnail { get; set; }
 
         [Required(ErrorMessage = "Chi tiết sản phẩm là bắt buộc.")]
-        public string Details { get; set; }
+        public IFormFile Details { get; set; }
     }
 
     public class CreateBrandReq
@@ -88,7 +90,7 @@ namespace server.Dto
         public decimal OriginalPrice { get; set; }
         public decimal? DiscountPercentage { get; set; }
         public decimal? DicountAmount { get; set; }
-        public decimal NewPrice { get; set; }
+        public decimal NewPrice { get; set; }   
         public bool IsOnDiscount { get; set; }
         public int StockQuantity { get; set; }
         public double AverageRating { get; set; }
@@ -115,6 +117,7 @@ namespace server.Dto
     public class ProductDetailsResDto
     {
         public int ProductId { get; set; }
-        public string Details { get; set; }
+        [JsonProperty("details")]
+        public ProductDetailData Details { get; set; }
     }
 }

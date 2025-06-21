@@ -19,8 +19,14 @@ namespace server.Mapper
                 .ForMember(x => x.Image, opt => opt.Ignore());
             CreateMap<ProductCategories, ProductCategoriesResDto>();
             CreateMap<Brand, BrandResDto>();
-            CreateMap<Entities.Product, ProductResDto>();
-            CreateMap<ProductDetails, ProductDetailsResDto>();
+            CreateMap<Entities.Product, ProductResDto>()
+                .ForMember(dest => dest.ProductCategoriesResDto, opt => opt.MapFrom(src => src.ProductCategories))
+                .ForMember(dest => dest.BrandResDto, opt => opt.MapFrom(src => src.Brand))
+                .ForMember(dest => dest.DicountAmount, opt => opt.MapFrom(src =>
+                src.DiscountPercentage.HasValue ? (src.OriginalPrice * src.DiscountPercentage.Value / 100) : 0m));
+            CreateMap<ProductDetails, ProductDetailsResDto>()
+            .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.ParsedDetails ?? new ProductDetailData()))
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
         }
     }
 }

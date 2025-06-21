@@ -17,7 +17,7 @@ export class HeaderComponent {
 
   navItems = [
     { name: 'Trang chủ', link: '/' },
-    { name: 'Dòng xe', link: '/products' },
+    { name: 'Dòng xe', link: '/xe-motor' },
     { name: 'Giới thiệu', link: '/about' },
     { name: 'Liên hệ', link: '/contact' }
   ];

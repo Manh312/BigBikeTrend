@@ -1,14 +1,13 @@
 <!-- Container for multiple cards -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 max-w-7xl mx-auto">
   <!-- Single Card -->
   <mat-card class="bg-white w-full h-[450px] flex flex-col rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
     <div class="flex justify-between p-4">
       <span *ngIf="product.isFeatured" class="bg-sky-500 bg-gradient-to-r from-sky-700 to-blue-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">Nổi bật</span>
       <span *ngIf="product.isOnDiscount" class=" bg-red-500 bg-gradient-to-r from-red-700 to-red-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">{{product.discountPercentage}}%</span>
     </div>
-    <img mat-card-image [src]="product.thumbnail?.imageUrl" alt="{{product.name}}" class="w-full h-45 object-cover">
+    <img mat-card-image [src]="imageUrl + product.thumbnail?.imageUrl" alt="{{product.name}}" class="w-full h-45 object-cover">
     <div class="flex justify-end gap-1 px-4 py-2">
-      <button mat-icon-button class="hover:bg-gray-100 rounded-full transition-colors">
+      <button mat-icon-button class="hover:bg-gray-100 rounded-full transition-colors" [routerLink]="[`detail/${product.id}`]">
         <mat-icon class="!text-gray-600 hover:!text-blue-600">visibility</mat-icon>
       </button>
       <button mat-icon-button class="hover:bg-gray-100 rounded-full transition-colors">
@@ -31,8 +30,7 @@
         <span class="text-lg font-bold text-gray-900">{{product.newPrice | currency: 'VND'}}</span>
         <span *ngIf="product.originalPrice" class="text-xs text-gray-500 line-through">{{product.originalPrice | currency: 'VND'}}</span>
       </div>
-      <button mat-raised-button class="bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700 transition-colors text-sm">+ Add</button>
+      <button mat-raised-button class="bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700 transition-colors text-sm"><mat-icon>add</mat-icon>Thêm </button>
     </mat-card-actions>
   </mat-card>
   <!-- Repeat <mat-card> as needed for other products -->
-</div>

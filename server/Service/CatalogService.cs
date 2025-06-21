@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using server.Dto;
 using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
 using server.Interface.Services;
-using System.Text.Json;
 using Product = server.Entities.Product;
 
 namespace server.Service
@@ -69,12 +69,19 @@ namespace server.Service
             if (brand == null)
                 throw new Exception($"ID thương hiệu {inData.BrandId} không hợp lệ.");
 
-            if (string.IsNullOrEmpty(inData.Details))
+            if (inData.Details == null || inData.Details.Length == 0)
+                throw new ArgumentException("Chi tiết sản phẩm không được để trống.", nameof(inData.Details));
+
+            // Đọc nội dung từ file Details
+            using var reader = new StreamReader(inData.Details.OpenReadStream());
+            string detailsJson = await reader.ReadToEndAsync();
+
+            if (string.IsNullOrEmpty(detailsJson))
                 throw new ArgumentException("Chi tiết sản phẩm không được để trống.", nameof(inData.Details));
 
             try
             {
-                JsonDocument.Parse(inData.Details);
+                System.Text.Json.JsonDocument.Parse(detailsJson);
             }
             catch (JsonException)
             {
@@ -88,6 +95,12 @@ namespace server.Service
             newProduct.Brand = brand;
             newProduct.Thumbnail = image;
 
+            // Tính discountAmount
+            if (inData.DiscountPercentage.HasValue) // Giả định thêm thuộc tính DiscountPercentage
+            {
+                newProduct.DiscountAmount = newProduct.OriginalPrice * inData.DiscountPercentage.Value / 100;
+            }
+
             using var transaction = await _productRepository.BeginTransactionAsync();
             try
             {
@@ -96,7 +109,7 @@ namespace server.Service
                 ProductDetails productDetails = new ProductDetails
                 {
                     ProductId = newProduct.Id,
-                    Details = inData.Details
+                    Details = detailsJson
                 };
                 await _productDetailsRepository.AddAsync(productDetails);
 
@@ -173,6 +186,47 @@ namespace server.Service
             var productDetails = await _productDetailsRepository.GetByProductIdAsync(productId);
             if (productDetails == null)
                 throw new Exception($"Không tìm thấy chi tiết sản phẩm cho ID sản phẩm {productId}.");
+
+            // Khởi tạo ParsedDetails với giá trị mặc định
+            productDetails.ParsedDetails = new ProductDetailData
+            {
+                Power = new List<Power>(),
+                Performance = new List<Performance>(),
+                ProductSpecificDetails = new List<Detail>(),
+                Features = new List<Feature>()
+            };
+
+            // Parse JSON từ Details nếu có
+            if (!string.IsNullOrEmpty(productDetails.Details) && productDetails.Details != "{}")
+            {
+                try
+                {
+                    var settings = new JsonSerializerSettings
+                    {
+                        MissingMemberHandling = MissingMemberHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore,
+                        DefaultValueHandling = DefaultValueHandling.Populate
+                    };
+                    var parsedData = JsonConvert.DeserializeObject<ProductDetailData>(productDetails.Details, settings);
+                    if (parsedData != null)
+                    {
+                        productDetails.ParsedDetails = parsedData;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Parsed data is null for ProductId {productId}.");
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"JSON Parse error for ProductId {productId}: {ex.Message} - Details: {productDetails.Details}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"No valid Details for ProductId {productId}, using default.");
+            }
+
             return productDetails;
         }
     }

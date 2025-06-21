@@ -1,4 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -98,6 +100,11 @@ builder.Services.AddSwaggerGen(options =>
             new string[] {}
         }
     });
+});
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = null; // Bỏ giới hạn kích thước yêu cầu
 });
 
 builder.Services.AddCors(options =>

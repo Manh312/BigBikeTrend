@@ -27,12 +27,19 @@ export class ProductsComponent implements OnInit {
   constructor(private catalogService: CatalogService) { }
   
   ngOnInit(): void {
-    this.catalogService.getProducts(this.initialFilters).subscribe((res) => {
+  this.catalogService.getProducts(this.initialFilters).subscribe({
+    next: (res) => {
+      console.log('API Response:', res); // Log toàn bộ phản hồi
       if (res.data?.data) {
-        this.products = res.data?.data;
+        this.products = res.data.data;
+        console.log('Loaded products:', this.products); // Kiểm tra mảng sản phẩm
+      } else {
+        console.error('No data in response:', res);
       }
-    })
-  }
+    },
+    error: (err) => console.error('Error fetching products:', err)
+  });
+}
 
   pageIndex!: number;
   display(pageIndex:number) {

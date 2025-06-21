@@ -71,7 +71,7 @@ namespace server.Controllers
 
         [HttpPost]
         [Route("product/create")]
-        public async Task<ActionResult<ResponseDto>> CreateProduct(CreateProductReq newProduct)
+        public async Task<ActionResult<ResponseDto>> CreateProduct([FromForm] CreateProductReq newProduct)
         {
             ResponseDto responseDto = new ResponseDto();
             if (!ModelState.IsValid)
@@ -90,6 +90,12 @@ namespace server.Controllers
                 if (string.IsNullOrEmpty(newProduct.Name) || newProduct.OriginalPrice <= 0 || newProduct.ProductCategoryId <= 0 || newProduct.BrandId <= 0)
                 {
                     responseDto.Message = "Dữ liệu sản phẩm không hợp lệ. Tên, giá, ID danh mục sản phẩm và ID thương hiệu là bắt buộc.";
+                    return BadRequest(responseDto);
+                }
+
+                if (newProduct.Details == null || newProduct.Details.Length == 0)
+                {
+                    responseDto.Message = "Chi tiết sản phẩm không được để trống.";
                     return BadRequest(responseDto);
                 }
 

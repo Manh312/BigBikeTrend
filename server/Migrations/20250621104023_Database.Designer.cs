@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250620104830_Database")]
+    [Migration("20250621104023_Database")]
     partial class Database
     {
         /// <inheritdoc />

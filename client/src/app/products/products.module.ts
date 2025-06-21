@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { MatCardModule } from '@angular/material/card';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MatCardModule } from '@angular/material/card';
     PaginationComponent,
     FiltersComponent,
     SortHeaderComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    ProductDetailComponent,
   ],
   imports: [
     CommonModule,
