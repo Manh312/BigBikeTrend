@@ -21,7 +21,7 @@ namespace server.Interface.Service
         Task<ProductCategories> CreateProductCategories(CreateProductCategoriesReq inData);
         Task DeleteProductCategories(int productCategoriesId);
 
-        // Product_Details (thêm mới)
-        Task<ProductDetails> GetProductDetailsByProductId(int productId);
+        // Product_Details (thay đổi kiểu trả về)
+        Task<ProductDetailResponseDto> GetProductDetailsByProductId(int productId);
     }
 }

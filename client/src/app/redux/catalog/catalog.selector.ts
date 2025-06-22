@@ -6,9 +6,14 @@ export const selectCatalogState = createFeatureSelector<CatalogState>('catalogSt
 export const selectProductCategories = createSelector(
   selectCatalogState,
   (state: CatalogState) => state.productCategories
-)
+);
 
 export const selectBrands = createSelector(
   selectCatalogState,
   (state: CatalogState) => state.brands
-)
+);
+
+export const selectProducts = createSelector(
+  selectCatalogState,
+  (state: CatalogState) => state.products
+);

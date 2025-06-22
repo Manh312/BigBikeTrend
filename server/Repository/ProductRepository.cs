@@ -27,6 +27,7 @@ namespace server.Repository
                 .Include(p => p.ProductCategories)
                 .Include(p => p.Brand)
                 .Include(p => p.Thumbnail)
+                .Include(p => p.ProductDetails)
                 .AsQueryable();
 
             // Thực hiện join với Product_Details

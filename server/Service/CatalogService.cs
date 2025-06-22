@@ -5,6 +5,8 @@ using server.Entities;
 using server.Interface.Repository;
 using server.Interface.Service;
 using server.Interface.Services;
+using System;
+using System.Threading.Tasks;
 using Product = server.Entities.Product;
 
 namespace server.Service
@@ -26,12 +28,12 @@ namespace server.Service
             IMapper mapper,
             IProductDetailsRepository productDetailsRepository)
         {
-            _productRepository = productRepository;
-            _productCategoriesRepository = productCategoriesRepository;
-            _brandRepository = brandRepository;
-            _imageService = imageService;
-            _mapper = mapper;
-            _productDetailsRepository = productDetailsRepository;
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _productCategoriesRepository = productCategoriesRepository ?? throw new ArgumentNullException(nameof(productCategoriesRepository));
+            _brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
+            _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _productDetailsRepository = productDetailsRepository ?? throw new ArgumentNullException(nameof(productDetailsRepository));
         }
 
         public async Task<Brand> CreateBrand(CreateBrandReq inData)
@@ -96,7 +98,7 @@ namespace server.Service
             newProduct.Thumbnail = image;
 
             // Tính discountAmount
-            if (inData.DiscountPercentage.HasValue) // Giả định thêm thuộc tính DiscountPercentage
+            if (inData.DiscountPercentage.HasValue)
             {
                 newProduct.DiscountAmount = newProduct.OriginalPrice * inData.DiscountPercentage.Value / 100;
             }
@@ -181,22 +183,21 @@ namespace server.Service
             return products;
         }
 
-        public async Task<ProductDetails> GetProductDetailsByProductId(int productId)
+        public async Task<ProductDetailResponseDto> GetProductDetailsByProductId(int productId)
         {
-            var productDetails = await _productDetailsRepository.GetByProductIdAsync(productId);
-            if (productDetails == null)
-                throw new Exception($"Không tìm thấy chi tiết sản phẩm cho ID sản phẩm {productId}.");
+            if (productId <= 0)
+                throw new ArgumentException("Product ID không hợp lệ.", nameof(productId));
 
-            // Khởi tạo ParsedDetails với giá trị mặc định
-            productDetails.ParsedDetails = new ProductDetailData
-            {
-                Power = new List<Power>(),
-                Performance = new List<Performance>(),
-                ProductSpecificDetails = new List<Detail>(),
-                Features = new List<Feature>()
-            };
+            // Lấy Product từ repository, bao gồm ProductDetails
+            var product = await _productRepository.GetByIdAsync(productId);
+            if (product == null)
+                throw new Exception($"Không tìm thấy sản phẩm cho ID {productId}.");
 
-            // Parse JSON từ Details nếu có
+            // Lấy hoặc khởi tạo ProductDetails
+            var productDetails = await _productDetailsRepository.GetByProductIdAsync(productId) ?? new ProductDetails { ProductId = productId };
+            product.ProductDetails = productDetails;
+
+            // Parse JSON từ Details để gán vào ParsedDetails
             if (!string.IsNullOrEmpty(productDetails.Details) && productDetails.Details != "{}")
             {
                 try
@@ -212,22 +213,28 @@ namespace server.Service
                     {
                         productDetails.ParsedDetails = parsedData;
                     }
-                    else
-                    {
-                        Console.WriteLine($"Parsed data is null for ProductId {productId}.");
-                    }
                 }
                 catch (JsonException ex)
                 {
-                    Console.WriteLine($"JSON Parse error for ProductId {productId}: {ex.Message} - Details: {productDetails.Details}");
+                    throw new JsonException($"Lỗi parse JSON cho ProductId {productId}: {ex.Message}", ex);
                 }
             }
-            else
+            else if (productDetails.ParsedDetails == null)
             {
-                Console.WriteLine($"No valid Details for ProductId {productId}, using default.");
+                productDetails.ParsedDetails = new ProductDetailData
+                {
+                    Power = new List<Power>(),
+                    Performance = new List<Performance>(),
+                    ProductSpecificDetails = new List<Detail>(),
+                    Features = new List<Feature>()
+                };
             }
 
-            return productDetails;
+            // Loại bỏ Details thô sau khi parse
+            productDetails.Details = null;
+
+            // Ánh xạ sang ProductDetailResponseDto
+            return _mapper.Map<ProductDetailResponseDto>(product);
         }
     }
 }

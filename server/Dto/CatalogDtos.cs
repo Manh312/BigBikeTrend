@@ -7,9 +7,9 @@ namespace server.Dto
     public class CreateProductReq
     {
         [Required(ErrorMessage = "Tên sản phẩm là bắt buộc.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         [Required(ErrorMessage = "Giá gốc là bắt buộc.")]
         public decimal OriginalPrice { get; set; }
@@ -29,28 +29,28 @@ namespace server.Dto
         public int ProductCategoryId { get; set; }
 
         [Required(ErrorMessage = "Hình ảnh đại diện là bắt buộc.")]
-        public IFormFile Thumbnail { get; set; }
+        public required IFormFile Thumbnail { get; set; }
 
         [Required(ErrorMessage = "Chi tiết sản phẩm là bắt buộc.")]
-        public IFormFile Details { get; set; }
+        public required IFormFile Details { get; set; }
     }
 
     public class CreateBrandReq
     {
         [Required(ErrorMessage = "Tên thương hiệu là bắt buộc.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required(ErrorMessage = "Hình ảnh thương hiệu là bắt buộc.")]
-        public IFormFile Image { get; set; }
+        public required IFormFile Image { get; set; }
     }
 
     public class CreateProductCategoriesReq
     {
         [Required(ErrorMessage = "Tên danh mục sản phẩm là bắt buộc.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required(ErrorMessage = "Hình ảnh danh mục sản phẩm là bắt buộc.")]
-        public IFormFile Image { get; set; }
+        public required IFormFile Image { get; set; }
     }
 
     public class CatalogSpec
@@ -71,25 +71,25 @@ namespace server.Dto
     public class ProductCategoriesResDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public ImageDtoRes? Image { get; set; }
     }
 
     public class BrandResDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public ImageDtoRes? Image { get; set; }
     }
 
     public class ProductResDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
         public decimal OriginalPrice { get; set; }
         public decimal? DiscountPercentage { get; set; }
-        public decimal? DicountAmount { get; set; }
+        public decimal? DiscountAmount { get; set; }
         public decimal NewPrice { get; set; }   
         public bool IsOnDiscount { get; set; }
         public int StockQuantity { get; set; }
@@ -97,8 +97,8 @@ namespace server.Dto
         public int TotalReviews { get; set; }
         public bool InStock { get; set; }
         public bool IsFeatured { get; set; } = false;
-        public ProductCategoriesResDto ProductCategoriesResDto { get; set; }
-        public BrandResDto BrandResDto { get; set; }
+        public required ProductCategoriesResDto ProductCategoriesResDto { get; set; }
+        public required BrandResDto BrandResDto { get; set; }
         public ImageDtoRes? Thumbnail { get; set; }
     }
 
@@ -114,10 +114,25 @@ namespace server.Dto
         public decimal? MaxPrice { get; set; }
     }
 
-    public class ProductDetailsResDto
+    public class ProductDetailResponseDto
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public decimal? DiscountPercentage { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public decimal NewPrice { get; set; }
+        public bool IsOnDiscount { get; set; }
+        public int StockQuantity { get; set; }
+        public double AverageRating { get; set; }
+        public int TotalReviews { get; set; }
+        public bool InStock { get; set; }
+        public bool IsFeatured { get; set; }
+        public required ProductCategoriesResDto ProductCategory { get; set; }
+        public required BrandResDto Brand { get; set; }
+        public required ImageDtoRes Thumbnail { get; set; }
         [JsonProperty("details")]
-        public ProductDetailData Details { get; set; }
+        public required ProductDetailData Details { get; set; }
     }
 }

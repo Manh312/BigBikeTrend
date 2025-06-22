@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ProductDetailsResDto, ProductDetailDataResDto, PowerResDto, PerformanceResDto, DetailResDto, FeatureResDto } from '../../core/models/catalog';
 import { ActivatedRoute } from '@angular/router';
 import { CatalogService } from '../../core/services/catalog.service';
+import { BASE_IMAGE_API } from '../../core/token/baseUrl.token';
 
 @Component({
   selector: 'app-product-detail',
@@ -10,7 +11,7 @@ import { CatalogService } from '../../core/services/catalog.service';
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit {
-  product: ProductDetailsResDto | null = null;
+  productDetail: ProductDetailsResDto | null = null;
   parsedDetails: ProductDetailDataResDto | undefined;
   powerItems: PowerResDto[] = [];
   performanceItems: PerformanceResDto[] = [];
@@ -26,10 +27,18 @@ export class ProductDetailComponent implements OnInit {
     { name: 'CHI TIẾT', open: true, items: [] as DetailResDto[] }
   ];
 
+  imageUrl: string;
+  yawAngle = 0; // Góc xoay ngang (yaw)
+  pitchAngle = 0; // Góc xoay dọc (pitch)
+  zoomLevel = 1;
+
   constructor(
+    @Inject(BASE_IMAGE_API) imageUrl: string,
     private route: ActivatedRoute,
     private catalogService: CatalogService
-  ) {}
+  ) {
+    this.imageUrl = imageUrl;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -48,8 +57,8 @@ export class ProductDetailComponent implements OnInit {
         this.loading = false;
         console.log('API Response:', res.data);
         if (res.data) {
-          this.product = res.data;
-          this.parsedDetails = this.product.details as ProductDetailDataResDto;
+          this.productDetail = res.data;
+          this.parsedDetails = this.productDetail.details as ProductDetailDataResDto;
           this.powerItems = this.parsedDetails?.power || [];
           this.performanceItems = this.parsedDetails?.performance || [];
           this.detailItems = this.parsedDetails?.productSpecificDetails || [];
@@ -60,10 +69,6 @@ export class ProductDetailComponent implements OnInit {
           this.detailCategories.find(c => c.name === 'SỨC MẠNH')!.items = this.powerItems;
           this.detailCategories.find(c => c.name === 'HIỆU NĂNG')!.items = this.performanceItems;
           this.detailCategories.find(c => c.name === 'CHI TIẾT')!.items = this.detailItems;
-
-          if (!this.parsedDetails) {
-            console.warn('parsedDetails is missing or null.');
-          }
         }
       },
       error: (err) => {
@@ -109,5 +114,35 @@ export class ProductDetailComponent implements OnInit {
       default:
         return [];
     }
+  }
+
+  rotateLeft() {
+    this.yawAngle = (this.yawAngle - 10 + 360) % 360;
+  }
+
+  rotateRight() {
+    this.yawAngle = (this.yawAngle + 10) % 360;
+  }
+
+  rotateUp() {
+    this.pitchAngle = Math.max(-90, this.pitchAngle - 10); // Giới hạn pitch từ -90 đến 90 độ
+  }
+
+  rotateDown() {
+    this.pitchAngle = Math.min(90, this.pitchAngle + 10); // Giới hạn pitch từ -90 đến 90 độ
+  }
+
+  onZoom(event: WheelEvent) {
+    event.preventDefault();
+    const delta = event.deltaY > 0 ? -0.1 : 0.1;
+    this.zoomLevel = Math.max(0.5, Math.min(2, this.zoomLevel + delta));
+  }
+
+  zoomIn() {
+    this.zoomLevel = Math.min(2, this.zoomLevel + 0.1);
+  }
+
+  zoomOut() {
+    this.zoomLevel = Math.max(0.5, this.zoomLevel - 0.1);
   }
 }

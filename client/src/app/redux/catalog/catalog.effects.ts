@@ -6,10 +6,14 @@ import {
   loadProductCategories,
   loadProductCategoriesFailure,
   loadProductCategoriesSuccess,
+  loadProducts,
+  loadProductsFailure,
+  loadProductsSuccess,
 } from './catalog.action';
 import { CatalogService } from '../../core/services/catalog.service';
 import { mergeMap, map, catchError, of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { ProductFilters } from '../../core/models/catalog';
 
 @Injectable()
 export class CatalogEffects {
@@ -18,6 +22,7 @@ export class CatalogEffects {
     private catalogService: CatalogService
   ) { }
 
+  // Product Categories
   loadProductCategories$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadProductCategories),
@@ -36,6 +41,7 @@ export class CatalogEffects {
     )
   );
 
+  // Brands
   loadBrands$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadBrands),
@@ -47,6 +53,24 @@ export class CatalogEffects {
               : loadBrandsFailure({ error: res.message });
           }),
           catchError((error) => of(loadBrandsFailure({ error })))
+        )
+      )
+    )
+  );
+
+  // Product
+  loadProducts$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(loadProducts),
+      mergeMap(() =>
+        // Provide an appropriate ProductFilters object here
+        this.catalogService.getProducts({} as ProductFilters).pipe(
+          map((res) => {
+            return res.isSuccessed
+              ? loadProductsSuccess({ products: res.data?.data ? res.data.data : [] })
+              : loadProductsFailure({ error: res.message });
+          }),
+          catchError((error) => of(loadProductsFailure({ error })))
         )
       )
     )

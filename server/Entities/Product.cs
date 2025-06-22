@@ -50,5 +50,7 @@
         public ICollection<ProductReview> ProductReviews { get; set; }
         public int? ThumbnailId { get; set; }
         public Image? Thumbnail { get; set; }
+        // Thêm navigation property cho ProductDetails
+        public ProductDetails ProductDetails { get; set; } // Quan hệ một-một hoặc một-nhiều (tùy cơ sở dữ liệu)
     }
 }

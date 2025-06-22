@@ -4,19 +4,38 @@
 <div *ngIf="error" class="flex justify-center items-center p-5 text-center text-red-500">
   <p>{{ error }}</p>
 </div>
-<div *ngIf="product && !loading && !error" class="container mx-auto p-4">
-  <div class="max-w-md mx-auto">
+<div *ngIf="productDetail && !loading && !error" class="container row mx-auto p-4 mb-30">
+  <div class="col-6">
+    <div>
+      <h2 class="mb-10">TỔNG QUAN</h2>
+      <div class="mb-10 image-viewer">
+        <p>{{productDetail.description}}</p>
+        <img [src]="imageUrl + productDetail.thumbnail?.imageUrl" alt="" 
+             [style.transform]="'rotateY(' + yawAngle + 'deg) rotateX(' + pitchAngle + 'deg) scale(' + zoomLevel + ')'" 
+             (wheel)="onZoom($event)">
+        <div class="controls">
+          <button (click)="rotateLeft()">←</button>
+          <button (click)="rotateUp()">↑</button>
+          <button (click)="rotateDown()">↓</button>
+          <button (click)="rotateRight()">→</button>
+          <button (click)="zoomIn()">+</button>
+          <button (click)="zoomOut()">-</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-md mx-auto col-6">
     <div class="space-y-4" *ngFor="let category of detailCategories">
       <div class="border-b border-gray-200">
         <div class="flex justify-between items-center p-2 bg-gray-100 cursor-pointer hover:bg-gray-200" (click)="toggleCategory(category)">
-          <h3 class="font-bold text-lg">{{ category.name }}</h3>
-          <span class="text-green-500">{{ category.open ? '-' : '+' }}</span>
+          <h6>{{ category.name }}</h6>
+          <span class="text-black">{{ category.open ? '-' : '+' }}</span>
         </div>
         <div class="p-2" *ngIf="category.open">
           <div class="space-y-2" *ngFor="let item of getItems(category.name)">
             <div class="flex justify-between bg-gray-50 p-2 rounded">
-              <span class="text-gray-700">{{ item.label }}</span>
-              <span class="text-green-600 font-semibold">{{ item.value }} {{ item.unit || '' }}</span>
+              <span class="text-gray-500 font-bold">{{ item.label }}</span>
+              <span class="text-black">{{ item.value }} {{ item.unit || '' }}</span>
             </div>
           </div>
         </div>

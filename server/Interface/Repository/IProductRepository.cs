@@ -8,6 +8,6 @@ namespace server.Interface.Repository
     {
         Task<ProductPagination> GetAllIncludingChildEntities(CatalogSpec inData);
         Task<IDbContextTransaction> BeginTransactionAsync();
-
+        Task<Product> GetByIdAsync(int id, bool includeDetails = false);
     }
 }

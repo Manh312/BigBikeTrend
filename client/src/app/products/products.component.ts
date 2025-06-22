@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductFilters, ProductResDto } from '../core/models/catalog';
 import { CatalogService } from '../core/services/catalog.service';
+import { Store } from '@ngrx/store';
+import { Observable, tap } from 'rxjs';
+import { selectProducts } from '../redux/catalog/catalog.selector';
+import { loadProducts } from '../redux/catalog/catalog.action';
 
 @Component({
   selector: 'app-products',
@@ -9,7 +13,7 @@ import { CatalogService } from '../core/services/catalog.service';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
-  products: ProductResDto[] = [];
+  products$: Observable <ProductResDto[]>;
   initialFilters: ProductFilters = {
     pageIndex: 1,
     pageSize: 10,
@@ -24,21 +28,18 @@ export class ProductsComponent implements OnInit {
     sortOrder: ''
   };
 
-  constructor(private catalogService: CatalogService) { }
+  constructor(private store: Store) { 
+    this.products$ = this.store.select(selectProducts);
+  }
   
   ngOnInit(): void {
-  this.catalogService.getProducts(this.initialFilters).subscribe({
-    next: (res) => {
-      console.log('API Response:', res); // Log toàn bộ phản hồi
-      if (res.data?.data) {
-        this.products = res.data.data;
-        console.log('Loaded products:', this.products); // Kiểm tra mảng sản phẩm
-      } else {
-        console.error('No data in response:', res);
+  this.products$.pipe(
+    tap(products => {
+      if (products.length === 0)  {
+        this.store.dispatch(loadProducts());
       }
-    },
-    error: (err) => console.error('Error fetching products:', err)
-  });
+    })
+  ).subscribe();
 }
 
   pageIndex!: number;

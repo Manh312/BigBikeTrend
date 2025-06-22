@@ -86,8 +86,24 @@ export interface ProductDetailDataResDto {
   features: FeatureResDto[]; 
 }
 
+
 export interface ProductDetailsResDto {
-  productId: number;
+  id: number;
+  name: string;
+  description: string;
+  originalPrice: number;
+  discountPercentage: number | null;
+  discountAmount: number | null;
+  newPrice: number;
+  isOnDiscount: boolean;
+  stockQuantity: number;
+  averageRating: number;
+  totalReviews: number;
+  inStock: boolean;
+  isFeatured: boolean;
+  productCategory: ProductCategoriesResDto;
+  brand: BrandResDto;
+  thumbnail: ImageDtoRes;
   details: ProductDetailDataResDto;
 }
 

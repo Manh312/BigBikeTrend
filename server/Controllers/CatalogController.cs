@@ -312,8 +312,14 @@ namespace server.Controllers
                     return BadRequest(responseDto);
                 }
 
-                ProductDetails productDetails = await _catalogService.GetProductDetailsByProductId(productId);
-                responseDto.Data = _mapper.Map<ProductDetailsResDto>(productDetails);
+                var result = await _catalogService.GetProductDetailsByProductId(productId);
+                if (result == null)
+                {
+                    responseDto.Message = "Sản phẩm không tồn tại.";
+                    return NotFound(responseDto);
+                }
+
+                responseDto.Data = result;
                 responseDto.Message = "Lấy chi tiết sản phẩm thành công.";
                 return Ok(responseDto);
             }
