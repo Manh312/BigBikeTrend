@@ -12,14 +12,14 @@ import { loadBrands } from '../../redux/catalog/catalog.action';
   styleUrl: './filters.component.scss'
 })
 export class FiltersComponent implements OnInit {
-  productCategories$: Observable <ProductCategoriesResDto[]>
-
-  brands$: Observable <BrandResDto[]>
+  productCategories$: Observable<ProductCategoriesResDto[]>;
+  brands$: Observable<BrandResDto[]>;
 
   constructor(private store: Store) {
     this.productCategories$ = this.store.select(selectProductCategories);
     this.brands$ = this.store.select(selectBrands);
   }
+
   ngOnInit(): void {
     this.brands$.pipe(
       tap(brands => {
@@ -27,8 +27,7 @@ export class FiltersComponent implements OnInit {
           this.store.dispatch(loadBrands());
         }
       })
-    )
-    .subscribe();
+    ).subscribe();
   }
 
   ratings = [
@@ -44,57 +43,46 @@ export class FiltersComponent implements OnInit {
   @Input() selectedStockType: boolean = true;
   @Input() selectedRating: number[] = [];
 
-  @Input() minPrice: number = 1000;
-  @Input() maxPrice: number = 100000000;
-  @Input() selectedMinPrice: number = this.minPrice;
-  @Input() selectedMaxPrice: number = this.maxPrice;
+  @Input() minPrice!: number;
+  @Input() maxPrice!: number;
+  @Input() selectedMinPrice!: number;
+  @Input() selectedMaxPrice!: number;
 
   @Output() filtersChanged = new EventEmitter<any>();
 
-  minPriceChange(value: number) {
-    if (value <= this.selectedMaxPrice) {
-      this.selectedMinPrice = value;
-    } else {
-      this.selectedMinPrice = this.selectedMaxPrice;
-    }
+  minPriceChange(priceData: any) {
+    this.selectedMinPrice = priceData.value;
     this.applyFilters();
   }
 
-  maxPriceChange(value: number) {
-    if (value >= this.selectedMinPrice) {
-      this.selectedMaxPrice = value;
-    } else {
-      this.selectedMaxPrice = this.selectedMinPrice;
-    }
+  maxPriceChange(priceData: any) {
+    this.selectedMaxPrice = priceData.value;
     this.applyFilters();
   }
 
   toggleRating(ratingValue: number) {
-    const index = this.selectedRating.indexOf(ratingValue);
-    if (index === -1) {
-      this.selectedRating.push(ratingValue);
+    if (this.selectedRating.includes(ratingValue)) {
+      this.selectedRating = this.selectedRating.filter(id => id !== ratingValue);
     } else {
-      this.selectedRating.splice(index, 1);
+      this.selectedRating = [...this.selectedRating, ratingValue];
     }
     this.applyFilters();
   }
 
   toggleProductCategories(productCategoriesId: number) {
-    const index = this.selectedProductCategoriesIds.indexOf(productCategoriesId);
-    if (index === -1) {
-      this.selectedProductCategoriesIds.push(productCategoriesId);
+    if (this.selectedProductCategoriesIds.includes(productCategoriesId)) {
+      this.selectedProductCategoriesIds = this.selectedProductCategoriesIds.filter(id => id !== productCategoriesId);
     } else {
-      this.selectedProductCategoriesIds.splice(index, 1);
+      this.selectedProductCategoriesIds = [...this.selectedProductCategoriesIds, productCategoriesId];
     }
     this.applyFilters();
   }
 
   toggleBrand(brandId: number) {
-    const index = this.selectedBrandIds.indexOf(brandId);
-    if (index === -1) {
-      this.selectedBrandIds.push(brandId);
+    if (this.selectedBrandIds.includes(brandId)) {
+      this.selectedBrandIds = this.selectedBrandIds.filter(id => id !== brandId);
     } else {
-      this.selectedBrandIds.splice(index, 1);
+      this.selectedBrandIds = [...this.selectedBrandIds, brandId];
     }
     this.applyFilters();
   }
@@ -102,18 +90,20 @@ export class FiltersComponent implements OnInit {
   toggleStock(value: boolean) {
     this.selectedStockType = value;
     this.applyFilters();
+    console.log('Toggle Stock to:', value);
   }
 
   applyFilters() {
     const selectedFilters = {
-      productCategoriesId: this.selectedProductCategoriesIds,
-      brandId: this.selectedBrandIds,
-      minPrice: this.selectedMinPrice,
-      maxPrice: this.selectedMaxPrice,
-      stockType: this.selectedStockType,
-      rating: this.selectedRating
+      productCategoriesId: this.selectedProductCategoriesIds.length > 0 ? this.selectedProductCategoriesIds : undefined,
+      brandId: this.selectedBrandIds.length > 0 ? this.selectedBrandIds : undefined,
+      minPrice: this.selectedMinPrice !== this.minPrice ? this.selectedMinPrice : undefined,
+      maxPrice: this.selectedMaxPrice !== this.maxPrice ? this.selectedMaxPrice : undefined,
+      stockType: this.selectedStockType !== true ? this.selectedStockType : undefined,
+      rating: this.selectedRating.length > 0 ? this.selectedRating : undefined,
     };
 
     this.filtersChanged.emit(selectedFilters);
+    console.log('Emitted Filters:', selectedFilters); // Debug
   }
 }

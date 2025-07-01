@@ -178,8 +178,8 @@ namespace server.Service
                 throw new ArgumentNullException(nameof(inData), "Thông số danh mục không được để trống.");
 
             var products = await _productRepository.GetAllIncludingChildEntities(inData);
-            if (!products.Data.Any())
-                throw new Exception("Không có dữ liệu sản phẩm.");
+            //if (!products.Data.Any())
+            //    throw new Exception("Không có dữ liệu sản phẩm.");
             return products;
         }
 

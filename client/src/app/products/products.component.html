@@ -1,10 +1,13 @@
 <div class="container my-5">
   <div class="row">
     <div class="col-3">
-      <app-filters (filtersChanged)="filterChanged($event)"></app-filters>
+      <app-filters (filtersChanged)="filterChanged($event)" [minPrice]="minPrice" [maxPrice]="maxPrice"></app-filters>
     </div>
     <div class="col-9">
       <app-sort-header (sortHeaderChanges)="sortFilterChanged($event)"></app-sort-header>
+      <div *ngIf="(products$ | async)?.length === 0" class="text-center py-4">
+        Không có sản phẩm nào tìm thấy.
+      </div>
       <!-- <p>PageIndex: {{pageIndex}}</p>
       <p>Filters: {{filters|json}}</p>
       <p>Sort Filter: {{sortFilter|json}}</p> -->

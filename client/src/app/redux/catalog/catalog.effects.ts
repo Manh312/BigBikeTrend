@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   loadBrands,
   loadBrandsFailure,
-  loadBrandSuccess,
+  loadBrandsSuccess,
   loadProductCategories,
   loadProductCategoriesFailure,
   loadProductCategoriesSuccess,
@@ -13,7 +13,6 @@ import {
 import { CatalogService } from '../../core/services/catalog.service';
 import { mergeMap, map, catchError, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ProductFilters } from '../../core/models/catalog';
 
 @Injectable()
 export class CatalogEffects {
@@ -49,7 +48,7 @@ export class CatalogEffects {
         this.catalogService.getBrands().pipe(
           map((res) => {
             return res.isSuccessed
-              ? loadBrandSuccess({ brands: res.data ? res.data : [] })
+              ? loadBrandsSuccess({ brands: res.data ? res.data : [] })
               : loadBrandsFailure({ error: res.message });
           }),
           catchError((error) => of(loadBrandsFailure({ error })))
@@ -62,9 +61,9 @@ export class CatalogEffects {
   loadProducts$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadProducts),
-      mergeMap(() =>
+      mergeMap((action) =>
         // Provide an appropriate ProductFilters object here
-        this.catalogService.getProducts({} as ProductFilters).pipe(
+        this.catalogService.getProducts(action.filters).pipe(
           map((res) => {
             return res.isSuccessed
               ? loadProductsSuccess({ products: res.data?.data ? res.data.data : [] })

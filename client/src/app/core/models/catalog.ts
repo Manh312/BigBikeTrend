@@ -34,15 +34,15 @@ export interface ProductResDto {
 export interface ProductFilters {
     pageIndex: number;
     pageSize: number;
-    brandIds: number[] | null;
-    productCategoriesIds: number[] | null;
-    ratings: number[] | null;
-    search: string | null;
-    inStock: boolean | null;
-    minPrice: number | null;
-    maxPrice: number | null;
-    sort: string | null;
-    sortOrder: string | null;
+    brandIds?: number[];
+    productCategoriesIds?: number[];
+    ratings?: number[];
+    search?: string;
+    inStock?: boolean;
+    minPrice?: number;
+    maxPrice?: number;
+    sort?: string;
+    sortOrder?: string;
 }
 
 export interface ProductPaginationRes extends Pagination<ProductResDto> {

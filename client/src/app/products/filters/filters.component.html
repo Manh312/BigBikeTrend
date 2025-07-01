@@ -36,21 +36,19 @@
   <div class="filter-section">
     <h5>Khoảng giá</h5>
     <div class="filter-slider-container">
-      <mat-slider class="filter-slider" [min]="minPrice" [max]="maxPrice">
+      <mat-slider class="filter-slider" *ngIf="minPrice && maxPrice" [min]="minPrice" [max]="maxPrice">
         <input
-          [value]="selectedMinPrice"
           matSliderStartThumb
-          (valueChange)="minPriceChange($event)"
+          (dragEnd)="minPriceChange($event)"
         />
         <input
-          [value]="selectedMaxPrice"
           matSliderEndThumb
-          (valueChange)="maxPriceChange($event)"
+          (dragEnd)="maxPriceChange($event)"
         />
       </mat-slider>
     </div>
     <p>
-      <small>Giá: {{selectedMinPrice | currency: 'VND'}} - {{selectedMaxPrice | currency: 'VND'}}</small>
+      <small>Giá: {{selectedMinPrice||minPrice | currency: 'VND'}} - {{selectedMaxPrice||maxPrice | currency: 'VND'}}</small>
     </p>
   </div>
   <div class="filter-section">

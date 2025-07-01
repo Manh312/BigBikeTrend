@@ -23,6 +23,9 @@ namespace server.Repository
 
         public async Task<ProductPagination> GetAllIncludingChildEntities(CatalogSpec inData)
         {
+            if (inData == null)
+                throw new ArgumentNullException(nameof(inData), "Thông số danh mục không được để trống.");
+
             IQueryable<Product> productQuery = _context.Products
                 .Include(p => p.ProductCategories)
                 .Include(p => p.Brand)
@@ -30,30 +33,7 @@ namespace server.Repository
                 .Include(p => p.ProductDetails)
                 .AsQueryable();
 
-            // Thực hiện join với Product_Details
-            productQuery = productQuery
-                .GroupJoin(_context.ProductDetails,
-                    p => p.Id,
-                    pd => pd.ProductId,
-                    (product, details) => new { Product = product, Details = details.DefaultIfEmpty() })
-                .SelectMany(x => x.Details.DefaultIfEmpty(),
-                    (product, detail) => new Product
-                    {
-                        Id = product.Product.Id,
-                        Name = product.Product.Name,
-                        Description = product.Product.Description,
-                        OriginalPrice = product.Product.OriginalPrice,
-                        DiscountPercentage = product.Product.DiscountPercentage,
-                        DiscountAmount = product.Product.DiscountAmount,
-                        StockQuantity = product.Product.StockQuantity,
-                        AverageRating = product.Product.AverageRating,
-                        TotalReviews = product.Product.TotalReviews,
-                        IsFeatured = product.Product.IsFeatured,
-                        ProductCategories = product.Product.ProductCategories,
-                        Brand = product.Product.Brand,
-                        Thumbnail = product.Product.Thumbnail,
-                    });
-
+            // Áp dụng các bộ lọc
             if (!string.IsNullOrEmpty(inData.Search))
             {
                 productQuery = productQuery.Where(p => p.Name.Contains(inData.Search));
@@ -61,27 +41,20 @@ namespace server.Repository
 
             if (inData.MinPrice.HasValue)
             {
-                productQuery = productQuery.Where(p => p.OriginalPrice >= inData.MinPrice);
+                productQuery = productQuery.Where(p => p.OriginalPrice >= inData.MinPrice.Value);
             }
 
             if (inData.MaxPrice.HasValue)
             {
-                productQuery = productQuery.Where(p => p.OriginalPrice <= inData.MaxPrice);
+                productQuery = productQuery.Where(p => p.OriginalPrice <= inData.MaxPrice.Value);
             }
 
             if (inData.InStock.HasValue)
             {
-                if (inData.InStock == true)
-                {
-                    productQuery = productQuery.Where(p => p.StockQuantity > 0);
-                }
-                else 
-                {
-                    productQuery = productQuery.Where(p => p.StockQuantity <= 0);
-                }
+                productQuery = productQuery.Where(p => inData.InStock.Value ? p.StockQuantity > 0 : p.StockQuantity <= 0);
             }
 
-            if (inData.productCategoriesIds != null && inData.productCategoriesIds.Length > 0 )
+            if (inData.productCategoriesIds != null && inData.productCategoriesIds.Length > 0)
             {
                 productQuery = productQuery.Where(p => inData.productCategoriesIds.Contains(p.ProductCategoriesId));
             }
@@ -91,42 +64,47 @@ namespace server.Repository
                 productQuery = productQuery.Where(p => inData.BrandIds.Contains(p.BrandId));
             }
 
+            // Áp dụng sắp xếp
             if (!string.IsNullOrEmpty(inData.Sort))
             {
-                if (inData.Sort.ToLower() == "price_htl")
+                switch (inData.Sort.ToLower())
                 {
-                    productQuery = productQuery.OrderByDescending(p => p.OriginalPrice);
-                }
-                if (inData.Sort.ToLower() == "price_lth")
-                {
-                    productQuery = productQuery.OrderBy(p => p.OriginalPrice);
-                }
-                if (inData.Sort.ToLower() == "featured")
-                {
-                    productQuery = productQuery.OrderByDescending(p => p.IsFeatured);
-                }
-                if (inData.Sort.ToLower() == "rating")
-                {
-                    productQuery = productQuery.OrderBy(p => p.AverageRating);
-                }
-                if (inData.Sort.ToLower() == "newest")
-                {
-                    productQuery = productQuery.OrderByDescending(p => p.CreatedDate);
+                    case "price_htl":
+                        productQuery = productQuery.OrderByDescending(p => p.OriginalPrice);
+                        break;
+                    case "price_lth":
+                        productQuery = productQuery.OrderBy(p => p.OriginalPrice);
+                        break;
+                    case "featured":
+                        productQuery = productQuery.OrderByDescending(p => p.IsFeatured);
+                        break;
+                    case "rating":
+                        productQuery = productQuery.OrderBy(p => p.AverageRating);
+                        break;
+                    case "newest":
+                        productQuery = productQuery.OrderByDescending(p => p.CreatedDate);
+                        break;
                 }
             }
 
-            return new ProductPagination()
+            // Thực hiện phân trang và lấy dữ liệu
+            var totalCount = await productQuery.CountAsync();
+            var data = await productQuery
+                .Skip((inData.PageIndex - 1) * inData.PageSize)
+                .Take(inData.PageSize)
+                .ToListAsync();
+
+            var minPrice = data.Any() ? data.Min(p => p.OriginalPrice) : 0m;
+            var maxPrice = data.Any() ? data.Max(p => p.OriginalPrice) : 0m;
+
+            return new ProductPagination
             {
                 PageIndex = inData.PageIndex,
                 PageSize = inData.PageSize,
-                Data = await productQuery
-                    .Skip((inData.PageIndex - 1) * inData.PageSize)
-                    .Take(inData.PageSize)
-                    .ToListAsync(),
-                Count = await _context.Products.CountAsync(),
-                MinPrice = await _context.Products.MinAsync(p => p.OriginalPrice),
-                MaxPrice = await _context.Products.MaxAsync(p => p.OriginalPrice),
-
+                Data = data,
+                Count = totalCount,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice
             };
         }
     }

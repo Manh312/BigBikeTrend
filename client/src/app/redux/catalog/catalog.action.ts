@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { BrandResDto, ProductCategoriesResDto, ProductResDto } from '../../core/models/catalog';
+import { BrandResDto, ProductCategoriesResDto, ProductFilters, ProductResDto } from '../../core/models/catalog';
 
 
 // Product Categories
@@ -19,7 +19,7 @@ export const loadProductCategoriesFailure = createAction(
 // Brands
 export const loadBrands = createAction('[Brand] Load Brands');
 
-export const loadBrandSuccess = createAction(
+export const loadBrandsSuccess = createAction(
   '[Brand] Load Brands Success',
   props<{ brands: BrandResDto[] }>()
 )
@@ -30,8 +30,10 @@ export const loadBrandsFailure = createAction(
 )
 
 // Product 
-export const loadProducts = createAction('[Product] Load Products');
-
+export const loadProducts = createAction(
+  '[Product] Load Products',
+  props<{ filters: ProductFilters }>()
+);
 export const loadProductsSuccess = createAction(
   '[Product] Load Products Success',
   props<{ products: ProductResDto[] }>()

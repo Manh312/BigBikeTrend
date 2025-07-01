@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductFilters, ProductResDto } from '../core/models/catalog';
 import { CatalogService } from '../core/services/catalog.service';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
 import { selectProducts } from '../redux/catalog/catalog.selector';
 import { loadProducts } from '../redux/catalog/catalog.action';
 
@@ -13,49 +13,66 @@ import { loadProducts } from '../redux/catalog/catalog.action';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
-  products$: Observable <ProductResDto[]>;
+  products$: Observable<ProductResDto[]>;
   initialFilters: ProductFilters = {
     pageIndex: 1,
     pageSize: 10,
-    brandIds: [],
-    productCategoriesIds: [],
-    ratings: [],
-    search: '',
-    minPrice: null,
-    inStock: null,
-    maxPrice: null,
-    sort: '',
-    sortOrder: ''
   };
 
-  constructor(private store: Store) { 
+  filters$ = new BehaviorSubject<ProductFilters>(this.initialFilters);
+
+  maxPrice!: number;
+  minPrice!: number;
+
+  constructor(private store: Store, private catalogService: CatalogService) { 
     this.products$ = this.store.select(selectProducts);
   }
-  
+
   ngOnInit(): void {
-  this.products$.pipe(
-    tap(products => {
-      if (products.length === 0)  {
-        this.store.dispatch(loadProducts());
-      }
-    })
-  ).subscribe();
-}
-
-  pageIndex!: number;
-  display(pageIndex:number) {
-    this.pageIndex = pageIndex;
+    this.filters$.subscribe((filter) => {
+      this.catalogService.getProducts(filter).subscribe((res) => {
+        if (res.data?.data) {
+          this.store.dispatch(loadProducts({ filters: filter }));
+        }
+        if (res.data?.minPrice) {
+          console.log(res.data?.minPrice);
+          
+          this.minPrice = res.data?.minPrice;
+        }
+        if (res.data?.maxPrice) {
+          this.maxPrice = res.data?.maxPrice;
+        }
+      });
+    });
   }
 
-  filters!: object;
-  filterChanged(filters:object) {
-    console.log(filters);
-    this.filters = filters;
+  display(pageIndex: number) {
+    this.initialFilters = {
+      ...this.initialFilters,
+      pageIndex: pageIndex
+    }
+    this.filters$.next(this.initialFilters);
   }
 
-  sortFilter!: object;
-  sortFilterChanged(sortFilter: object) {
-    console.log(sortFilter);
-    this.sortFilter = sortFilter;
-  } 
+  filterChanged(filters: any) {
+    this.initialFilters = {
+      ...this.initialFilters,
+      productCategoriesIds: filters.productCategoriesId,
+      brandIds: filters.brandId,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      inStock: filters.stockType,
+      ratings: filters.rating
+    }
+    this.filters$.next(this.initialFilters); // Update filters$ with new filters
+  }
+
+  sortFilterChanged(filters: any) {
+    this.initialFilters = {
+      ...this.initialFilters,
+      pageSize: filters.itemsToShow,
+      sort: filters.sortBy
+    }
+    this.filters$.next(this.initialFilters);
+  }
 }

@@ -7,7 +7,7 @@ import {
 import {
   loadBrands,
   loadBrandsFailure,
-  loadBrandSuccess,
+  loadBrandsSuccess,
   loadProductCategories,
   loadProductCategoriesFailure,
   loadProductCategoriesSuccess,
@@ -46,10 +46,10 @@ export const catalogReducer = createReducer(
 
   // Brands
   on(loadBrands, (state) => ({ ...state })),
-  on(loadBrandSuccess, (state, { brands }) => ({
-    ...state,
-    brands,
-    error: null,
+  on(loadBrandsSuccess, (state, { brands }) => ({
+  ...state,
+  brands,
+  error: null,
   })),
 
   on(loadBrandsFailure, (state, { error }) => ({
