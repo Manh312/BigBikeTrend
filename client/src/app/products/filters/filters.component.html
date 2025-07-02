@@ -1,10 +1,10 @@
-<div class="filter-container">
+<div class="filter-container p-4 bg-white rounded-lg shadow-md">
   <div class="filter-header mb-5 mt-3">
-    <h4>Bộ Lọc Tìm Kiếm</h4>
+    <h4 class="text-lg font-semibold text-gray-800">Bộ Lọc Tìm Kiếm</h4>
   </div>
-  <div class="filter-section">
-    <h5>Theo danh mục</h5>
-    <div class="select-checkbox">
+  <div class="filter-section mb-6">
+    <h5 class="text-base font-medium text-gray-700 mb-2">Theo danh mục</h5>
+    <div class="select-checkbox space-y-2">
       <p *ngFor="let category of productCategories$|async">
         <mat-checkbox (change)="toggleProductCategories(category.id)">
           <span class="text-black">{{ category.name }}</span>
@@ -12,9 +12,9 @@
       </p>
     </div>
   </div>
-  <div class="filter-section">
-    <h5>Thương hiệu</h5>
-    <div class="select-checkbox">
+  <div class="filter-section mb-6">
+    <h5 class="text-base font-medium text-gray-700 mb-2">Thương hiệu</h5>
+    <div class="select-checkbox space-y-2">
       <p *ngFor="let brand of brands$|async">
         <mat-checkbox (change)="toggleBrand(brand.id)">
           <span class="text-black">{{ brand.name }}</span>
@@ -22,38 +22,50 @@
       </p>
     </div>
   </div>
-  <div class="filter-section">
-    <h5>Tình trạng</h5>
+  <div class="filter-section mb-6">
+    <h5 class="text-base font-medium text-gray-700 mb-2">Tình trạng</h5>
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-      <mat-button-toggle class="text-black" value="true" (change)="toggleStock(true)"
-        >In Stock</mat-button-toggle
-      >
-      <mat-button-toggle class="text-black" value="false" (change)="toggleStock(false)"
-        >Out of Stock</mat-button-toggle
-      >
+      <mat-button-toggle class="text-black bg-gray-100 hover:bg-gray-200" value="true" (change)="toggleStock(true)"
+        >Còn hàng</mat-button-toggle>
+      <mat-button-toggle class="text-black bg-gray-100 hover:bg-gray-200" value="false" (change)="toggleStock(false)"
+        >Hết hàng</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <div class="filter-section">
-    <h5>Khoảng giá</h5>
-    <div class="filter-slider-container">
-      <mat-slider class="filter-slider" *ngIf="minPrice && maxPrice" [min]="minPrice" [max]="maxPrice">
-        <input
-          matSliderStartThumb
-          (dragEnd)="minPriceChange($event)"
-        />
-        <input
-          matSliderEndThumb
-          (dragEnd)="maxPriceChange($event)"
-        />
-      </mat-slider>
+  <div class="filter-section mb-6">
+    <h5 class="text-base font-medium text-gray-700 mb-2">Khoảng giá</h5>
+    <div class="filter-price-container flex space-x-4 items-center">
+      <input
+        type="number"
+        [(ngModel)]="selectedMinPrice"
+        class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Từ"
+        min="0"
+        [max]="maxPrice"
+      />
+      <span class="text-gray-500 pl-3">-</span>
+      <input
+        type="number"
+        [(ngModel)]="selectedMaxPrice"
+        class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Đến"
+        min="0"
+        [max]="maxPrice"
+      />
     </div>
-    <p>
-      <small>Giá: {{selectedMinPrice||minPrice | currency: 'VND'}} - {{selectedMaxPrice||maxPrice | currency: 'VND'}}</small>
+    <button
+      (click)="applyPriceFilter()"
+      class="mt-3 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      Áp dụng
+    </button>
+    <p class="mt-2 text-sm text-gray-600">
+      Giá: {{ (selectedMinPrice || minPrice) | currency: 'VND' }} - {{ (selectedMaxPrice || maxPrice) | currency: 'VND' }}
     </p>
+    <p *ngIf="priceError" class="mt-1 text-sm text-red-500">{{ priceError }}</p>
   </div>
   <div class="filter-section">
-    <h5>Đánh giá</h5>
-    <div *ngFor="let rating of ratings">
+    <h5 class="text-base font-medium text-gray-700 mb-2">Đánh giá</h5>
+    <div *ngFor="let rating of ratings" class="mb-2">
       <mat-checkbox (change)="toggleRating(rating.value)">
         <s-rating [rating]="rating.value"></s-rating>
       </mat-checkbox>

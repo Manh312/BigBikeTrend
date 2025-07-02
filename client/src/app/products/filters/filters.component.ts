@@ -9,11 +9,12 @@ import { loadBrands } from '../../redux/catalog/catalog.action';
   selector: 'app-filters',
   standalone: false,
   templateUrl: './filters.component.html',
-  styleUrl: './filters.component.scss'
+  styleUrl: './filters.component.scss',
 })
 export class FiltersComponent implements OnInit {
   productCategories$: Observable<ProductCategoriesResDto[]>;
   brands$: Observable<BrandResDto[]>;
+  priceError: string | null = null;
 
   constructor(private store: Store) {
     this.productCategories$ = this.store.select(selectProductCategories);
@@ -50,13 +51,26 @@ export class FiltersComponent implements OnInit {
 
   @Output() filtersChanged = new EventEmitter<any>();
 
-  minPriceChange(priceData: any) {
-    this.selectedMinPrice = priceData.value;
-    this.applyFilters();
-  }
+  applyPriceFilter() {
+    // Reset error
+    this.priceError = null;
 
-  maxPriceChange(priceData: any) {
-    this.selectedMaxPrice = priceData.value;
+    // Validate price inputs
+    if (this.selectedMinPrice < 0 || this.selectedMaxPrice < 0) {
+      this.priceError = 'Giá không được âm';
+      return;
+    }
+    if (this.selectedMinPrice > this.selectedMaxPrice) {
+      this.priceError = 'Giá tối thiểu phải nhỏ hơn giá tối đa';
+      return;
+    }
+    if (this.selectedMinPrice < this.minPrice) {
+      this.selectedMinPrice = this.minPrice;
+    }
+    if (this.selectedMaxPrice > this.maxPrice) {
+      this.selectedMaxPrice = this.maxPrice;
+    }
+
     this.applyFilters();
   }
 
@@ -104,6 +118,6 @@ export class FiltersComponent implements OnInit {
     };
 
     this.filtersChanged.emit(selectedFilters);
-    console.log('Emitted Filters:', selectedFilters); // Debug
+    console.log('Emitted Filters:', selectedFilters);
   }
 }

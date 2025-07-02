@@ -9,10 +9,31 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class SortHeaderComponent {
   readonly showOptions: number[] = [10, 20, 30, 40, 100];
-  readonly sortOptions: string[] = ['Giá: Thấp đến Cao', 'Giá: Cao đến Thấp', 'Đánh giá: Cao đến Thấp', 'Đánh giá: Thấp đến Cao'];
-  
+  readonly sortOptions: any[] = [
+    {
+      name: 'Nổi bật',
+      value: 'featured'
+    },
+    {
+      name: 'Mới nhất',
+      value: 'newest'
+    },
+    {
+      name: 'Giá: Thấp đến Cao',
+      value: 'price_lth'
+    },
+    {
+      name: 'Giá: Cao đến Thấp',
+      value: 'price_htl'
+    },
+    {
+      name: 'Đánh giá',
+      value: 'rating'
+    }
+  ]  
   @Input() itemsToShow: number = 10;
   @Input() sortBy: string = 'Giá: Thấp đến Cao';
+  @Input() pageItems!: number;
 
   @Output() sortHeaderChanges = new EventEmitter<any>();
 

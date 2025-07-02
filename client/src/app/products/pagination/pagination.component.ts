@@ -7,9 +7,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent {
-  @Input() pageItems = 240;
-  @Input() currentPage = 0;
-  @Input() pageSize = 20;
+  @Input() pageItems!: number;
+  @Input() currentPage: number = 0;
+  @Input() pageSize!: number;
 
   @Output() pageChange = new EventEmitter<number>();
 
@@ -19,8 +19,13 @@ export class PaginationComponent {
   
   getPaginationArray():number[] {
     var pages = [];
-
-    if (this.currentPage <= 3) {
+    if (this.totalPages < 5) {
+      for (let index = 0; index < this.totalPages; index++) {
+        pages.push(index);        
+      }
+    }
+    else {
+      if (this.currentPage <= 3) {
       pages.push(0, 1, 2, 3, -1, this.totalPages - 1);
     } 
     else if (this.currentPage >= this.totalPages - 3) {
@@ -29,6 +34,7 @@ export class PaginationComponent {
     else {
       pages.push(-1, this.currentPage - 1, this.currentPage, this.currentPage + 1, - 1);
     }
+  }
 
     return pages;
   };
@@ -39,6 +45,5 @@ export class PaginationComponent {
       this.pageChange.emit(pageIndex);
     }
   }
-
 
 }

@@ -47,6 +47,7 @@ namespace server.Mapper
                 .ForMember(dest => dest.Thumbnail, opt => opt.MapFrom(src => src.Thumbnail))
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.ProductDetails != null ? src.ProductDetails.ParsedDetails ?? new ProductDetailData() : new ProductDetailData()))
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)); // Bỏ qua null
+            CreateMap<WishListItem, WishListItemResDto>();
         }
     }
 }

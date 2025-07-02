@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ProductsRoutingModule,
     MatButtonModule,
     MatIconModule,

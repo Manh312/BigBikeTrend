@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ProductDetailsResDto, ProductDetailDataResDto, PowerResDto, PerformanceResDto, DetailResDto, FeatureResDto } from '../../core/models/catalog';
 import { ActivatedRoute } from '@angular/router';
 import { CatalogService } from '../../core/services/catalog.service';
 import { BASE_IMAGE_API } from '../../core/token/baseUrl.token';
+import { Inject } from '@angular/core';
 
 @Component({
   selector: 'app-product-detail',

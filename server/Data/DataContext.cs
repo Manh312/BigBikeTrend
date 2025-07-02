@@ -91,5 +91,7 @@ namespace server.Data
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<ProductCategories> ProductCategories { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<WishListItem> WishListItems { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
     }
 }

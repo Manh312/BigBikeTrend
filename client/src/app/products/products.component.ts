@@ -17,12 +17,15 @@ export class ProductsComponent implements OnInit {
   initialFilters: ProductFilters = {
     pageIndex: 1,
     pageSize: 10,
+    sort: 'featured'
   };
 
   filters$ = new BehaviorSubject<ProductFilters>(this.initialFilters);
 
   maxPrice!: number;
   minPrice!: number;
+  pageSize: number = 10;
+  productCount!: number;
 
   constructor(private store: Store, private catalogService: CatalogService) { 
     this.products$ = this.store.select(selectProducts);
@@ -41,6 +44,9 @@ export class ProductsComponent implements OnInit {
         }
         if (res.data?.maxPrice) {
           this.maxPrice = res.data?.maxPrice;
+        }
+        if (res.data?.count) {
+          this.productCount = res.data?.count;
         }
       });
     });
@@ -68,6 +74,7 @@ export class ProductsComponent implements OnInit {
   }
 
   sortFilterChanged(filters: any) {
+    this.pageSize = filters.itemsToShow;
     this.initialFilters = {
       ...this.initialFilters,
       pageSize: filters.itemsToShow,
